@@ -34,6 +34,26 @@ def create_period():
     
     return jsonify({"message": "study session recorded!"}), 201
 
+@app.route("/update_coins/<int:number>", methods=["PUT"])
+def update_coins(number):
+    coin = Period.query.get(number)
+
+    if not coin:
+        return jsonify({"message" : "where it at"}), 404
+    
+    data = request.json
+
+    coin.coins = data.get("coins",coin.coins)
+    coin.hours = data.get("hours",coin.hours)
+    coin.minutes = data.get("minutes",coin.minutes)
+    coin.seconds = data.get("seconds",coin.seconds)
+    coin.milliseconds = data.get("milliSeconds",coin.milliseconds)
+    coin.datetime = data.get("dateTime",coin.datetime)
+
+    db.session.commit()
+    return jsonify({"message" : "coins updated"}), 200
+
+
 @app.route("/delete_period/<int:periodid>", methods=["DELETE"])
 def delete_contact(periodid):
     period = Period.query.get(periodid)
@@ -49,7 +69,7 @@ def delete_contact(periodid):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all() #creating database
-        # db.drop_all()
+        #db.drop_all()
     app.run(debug=True)
 
 

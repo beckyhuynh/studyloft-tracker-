@@ -8,41 +8,75 @@ function StopWatch(){
     const [elapsedTime, setElapsedTime] = useState(0);
     const intervalIdRef = useRef(null); 
     const startTimeRef = useRef(0); 
-
     const [periods, setPeriods] = useState([0])
-
-    const[totalcoins,setTotalCoins] = useState(0);
+    const[totalcoins,setTotalCoins] = useState([0]);
 
     useEffect(() => {
         fetchPeriods();
     },[]);
 
-    
+
     const fetchPeriods = async () => {
         const response = await fetch("http://127.0.0.1:5000/periods")
         const data = await response.json() 
         setPeriods(data.periods)
         console.log(data.periods)
-        console.log("does this work")    
-        console.log(periods)
+        setTotalCoins(data.periods[0].coins);
     }
 
     // adds new entry to dashboard and resets the clock when end session is pressed
     const addSession = async (e) => {
         e.preventDefault()
 
+        // create wallet as first row if database first created
+        if (periods.length == 0){
+            const hours = 0;
+            const minutes = 0;
+            const seconds = 0;
+            const milliSeconds = 0;
+            const coins = 0;
+            const dateTime = 0;
+
+            const data = {
+                hours,
+                minutes,
+                seconds,
+                milliSeconds,
+                coins,
+                dateTime
+            }
+
+            const url = "http://127.0.0.1:5000/create_period"
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+
+            }
+            const response = await fetch(url, options)
+            if (response.status !== 201 && response.status !== 200) {
+                const message = await response.json()
+                alert(data.message)
+
+            } else {
+                fetchPeriods();
+                setElapsedTime(0);
+                setIsRunning(false);
+            } 
+        }
+
         const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
         const minutes = Math.floor(elapsedTime / (1000 * 60) % 60);
         const seconds = Math.floor(elapsedTime / (1000) % 60);
         const milliSeconds = Math.floor(elapsedTime % 1000 / 10);
 
-        // every minute studied u get 5 coins
-        const coins = Math.floor((elapsedTime/60000)*5);
+        // every 30 seconds studied u get 1 coins
+        const coins = Math.floor((elapsedTime/30000)*1);
 
         const now = Date();
         const dateTime = now.toLocaleString().split("GMT")[0];
-
-        const sumCoins = totalcoins + coins;
 
         const data = {
             hours,
@@ -64,16 +98,64 @@ function StopWatch(){
         }
         const response = await fetch(url, options)
         if (response.status !== 201 && response.status !== 200) {
-            console.log("here")
             const message = await response.json()
             alert(data.message)
 
         } else {
             fetchPeriods();
-            setTotalCoins(sumCoins);
+            updateWallet(1,coins);
             setElapsedTime(0);
             setIsRunning(false);
+        }  
+    }
+
+    const updateWallet = async(rowId, money) => {
+        const hours = 0;
+        const minutes = 0;
+        const seconds = 0;
+        const milliSeconds = 0;
+
+        let temp = 10;
+        if (periods.length == 0) {
+            temp = money;
         }
+
+        else {temp = periods[0].coins + money;}
+
+        const coins = temp;
+
+        const dateTime = "0";
+
+        const data = {
+            hours,
+            minutes,
+            seconds,
+            milliSeconds,
+            coins,
+            dateTime
+        }
+
+        const url = "http://127.0.0.1:5000/update_coins/"
+        const options = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+        }
+
+        const response = await fetch(url + rowId, options)
+        if (response.status !== 201 && response.status !== 200) {
+            console.log("errorrrr")
+            const message = await response.json()
+
+        } else {
+            fetchPeriods();
+            console.log("wallet updated");
+        }
+
+
     }
 
     const deleteSession = async (periodId) => {
@@ -94,7 +176,6 @@ function StopWatch(){
 
         } else {
             fetchPeriods();
-            console.log(period);
             console.log("entry deleted")
         }
     }
@@ -117,7 +198,6 @@ function StopWatch(){
     function start() {
         setIsRunning(true);
         startTimeRef.current = Date.now() - elapsedTime;
-        console.log("hello")
     }
 
     function stop() {
@@ -145,20 +225,24 @@ function StopWatch(){
         const perDashboard = periods.map(per => <li key={per.id}>{per.hours}:
         {per.minutes}:{per.seconds}:{per.milliSeconds} ___ {per.dateTime}___ +{per.coins}coins</li>);
 
-        return(<ul style={{lineHeight:3.5}}>{perDashboard}</ul>);
-        
+        //dont include first entry in display(wallet)
+        if (perDashboard.length >= 2){
+            return(<ul style={{lineHeight:3.5}}>{perDashboard.slice(1)}</ul>);
+        }
+
+        //if theres only wallet in database, no period entries yet, dont display anything
+        else return
+        //return(<ul style={{lineHeight:3.5}}>{perDashboard}</ul>);
     }
 
+    // calculate total coins in user's wallet
     function coinCalculate(){
-        // let totalCoins = 0;
-        // for(let i = 0; i < periods.length; i++){
-        //     totalCoins += periods[i].coins;
-        // }
         return totalcoins;
     }
 
-    // function addToCart{
+    // function addToCart(item, price){
     //     //when click on button, add item into cart, and its price and quantity
+
 
     //     //each time press increase quantity of item
     //     //each time press message pops up saying added to cart at top of screen
