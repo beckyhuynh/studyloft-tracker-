@@ -11,10 +11,19 @@ function StopWatch(){
     const [periods, setPeriods] = useState([0])
     const[totalcoins,setTotalCoins] = useState([0]);
 
+    const [cartData,setCartData] = useState(new Map());
+    const [cartTotal,setCartTotal] = useState(0);
+
+    const [inventory, setInventory] = useState([0])
+
     useEffect(() => {
         fetchPeriods();
     },[]);
 
+
+    useEffect(() => {
+        fetchItems();
+    },[]);
 
     const fetchPeriods = async () => {
         const response = await fetch("http://127.0.0.1:5000/periods")
@@ -22,6 +31,13 @@ function StopWatch(){
         setPeriods(data.periods)
         console.log(data.periods)
         setTotalCoins(data.periods[0].coins);
+    }
+
+    const fetchItems = async () => {
+        const response = await fetch("http://127.0.0.1:5000/items")
+        const data = await response.json() 
+        setInventory(data.items)
+        console.log(data.items)
     }
 
     // adds new entry to dashboard and resets the clock when end session is pressed
@@ -108,6 +124,37 @@ function StopWatch(){
             setIsRunning(false);
         }  
     }
+
+     const addItem = async () => {
+        const name = "banana";
+        const price = 10;
+        const amount = 3;
+
+        const data = {
+            name,
+            price,
+            amount
+        }
+
+        const url = "http://127.0.0.1:5000/create_items"
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+        }
+        const response = await fetch(url, options)
+        if (response.status !== 201 && response.status !== 200) {
+            const message = await response.json()
+            alert(data.message)
+
+        } else {
+            fetchItems();
+        }  
+    }
+
 
     const updateWallet = async(rowId, money) => {
         const hours = 0;
@@ -240,19 +287,120 @@ function StopWatch(){
         return totalcoins;
     }
 
-    // function addToCart(item, price){
-    //     //when click on button, add item into cart, and its price and quantity
+    const addToCart = (item, price) =>{
+        const newMap = new Map(cartData);
 
+        //when click on button, add item into cart, and its price and quantity
+        //each time press increase quantity of item
+        //each time press message pops up saying added to cart at top of screen
 
-    //     //each time press increase quantity of item
-    //     //each time press message pops up saying added to cart at top of screen
-    //     return;
-    // }
+        // name of item, price, quantity
+       
+
+        // find if that item already exists
+        if (cartData.has(item)) {
+            console.log("has")
+            let amount = cartData.get(item)[1];
+            newMap.set(item,[price,amount + 1]);
+            setCartData(newMap);
+
+            //setCartData(cartData.set(item,[price,amount + 1]));
+        }
+
+        // otherwise if item doesnt exist create a row for it
+        else{
+            console.log("here")
+            newMap.set(item,[price,1]);
+            setCartData(newMap);
+            // setCartData(cartData.set(item,[price,1]));
+        }
+        console.log(cartData);
+    }
+
+    function displayCart(){
+        const cartArray = [...cartData]; // converts to array
+        
+        // console.log("after")
+        // console.log(cartArray);
+        // // console.log(cartData);
+        //const cartTable = cartArray.map(entry => <li key={entry[0]}>{entry[0]}___{entry[1][0]}___{entry[1][1]}</li>);
+
+        const cartCol1 =  cartArray.map(entry => <li key = {entry[0]} style ={{listStyleType:'none'}}>{entry[0]}</li>);
+        const cartCol2 =  cartArray.map(entry => <li key = {entry[0]} style ={{listStyleType:'none'}}>{entry[1][0]}</li>);
+        const cartCol3 =  cartArray.map(entry => <li key = {entry[0]} style ={{listStyleType:'none'}}>{entry[1][1]}</li>);
+
+        // return cartTable;
+        return(<table>
+            <tbody>
+                <tr>
+                    <th style = {{textAlign:'left', fontSize:45}}>Item</th>
+                    <th style = {{fontSize:45}}>Unit Price</th>
+                    <th style = {{textAlign:'right', fontSize:45}}>Quantity</th>
+                </tr>
+                    <td style = {{textAlign:'left', lineHeight:3, width:500}}>
+                        {cartCol1}
+                    </td>
+
+                    <td style = {{lineHeight:3, width:500}}>
+                        {cartCol2}
+                    </td>
+
+                    <td style = {{textAlign:'right', lineHeight:3, width:500}}>
+                        {cartCol3}
+                    </td>
+            </tbody>
+        </table>)
+    }
+
+    function totalInCart(){
+        let count = 0;
+        console.log("hellooo");
+        console.log(cartData)
+
+        // iterate through each item, multiply unit price by quantity, and add it up
+        cartData.forEach(function(value){
+            count += value[0]*value[1];
+        })
+        // setCartTotal(count);
+        // console.log(count)
+        // console.log("out")
+        // return cartTotal;
+        
+        // console.log(cartTotal + "vs" + count)
+        return count;
+    }
+
+    useEffect(() => {
+        setCartTotal(totalInCart());
+    },[cartData])
+
+    const checkOutCart = (() => {
+        // if theres nothing in the cart
+        if (cartData.size == 0) alert("THERE'S NOTHING IN THE CART!😲 ADD SOMETHING!");
+
+        // check if has enough balance
+        // if not return error message to screen
+        else if(totalcoins < cartTotal) alert("NOT ENOUGH BALANCE!!!")
+
+        // if have enough, print checked out!
+        // and clear the map, and also save all items to inventory in database
+        else if(totalcoins >= cartTotal) {
+            alert("CHECKED OUT! ITEMS ARE NOW IN YOUR INVENTORY!!");
+
+            // add item to database inventory
+            addItem();
+
+            const newCart = new Map();
+            setCartData(newCart);
+        }
+       
+    })
+    
 
     return(
         <div className="mainScreen">
             <div className="note">
-                <h1>study and get coins to decor your cafe!! ^^</h1>  
+                <h1>study and get coins to decorate your cafe!! ^^</h1>  
             </div> 
 
             <div className="title">
@@ -290,7 +438,7 @@ function StopWatch(){
                     
 
                         <div className= "title2">{
-                            <h1>session history◴- 5 coins/minute</h1>
+                            <h1>session history◴ ▶ 1 coin/30 secs</h1>
                         }
                         </div>
 
@@ -302,43 +450,55 @@ function StopWatch(){
 
                     <TabPanel>
                         <div className="browse"> 
-                            <div className="message">your total study coins: {coinCalculate()}⍟ <br /> click on pic to add to cart!</div>
+                            <div className="message"> 
+                                <div style = {{display:'inline'}}>your total study coins:</div>
+                                <div className="messageCoins" style = {{display:'inline'}} >{coinCalculate()}⍟ </div>
+                                <br /> click on pic to add to cart!
+                            </div>
 
-                                <button className="item" size="xs">
-                                    <img src="./images/chair.jpg" style ={{width:'440px',height:'440px'}}/>
-                                    <h1>wooden brown chair- 5 coins</h1>
-                                </button>
+                            <button onClick={() => addToCart("chair",5)} className="item" size="xs">
+                                <img src="./images/chair.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>wood chair- 5 coins</h1>
+                            </button>
 
-                                <button className="item" size="xs">
-                                    <img src="./images/table.jpg" style ={{width:'440px',height:'440px'}}/>
-                                    <h1>wooden brown table- 5 coins</h1>
-                                </button>
+                            <button onClick={() => addToCart("table",5)} className="item" size="xs">
+                                <img src="./images/table.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>wood table- 5 coins</h1>
+                            </button>
 
-                                <button className="item" size="xs">
-                                    <img src="./images/plant.jpg" style ={{width:'440px',height:'440px'}}/>
-                                    <h1>house plant- 5 coins</h1>
-                                </button>
+                            <button onClick={() => addToCart("plant",5)} className="item" size="xs">
+                                <img src="./images/plant.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>plant- 5 coins</h1>
+                            </button>
 
-                                <button className="item" size="xs">
-                                    <img src="./images/flowerpot.jpg" style ={{width:'440px',height:'440px'}}/>
-                                    <h1>flower pot- 5 coins</h1>
-                                </button>
+                            <button onClick={() => addToCart("flowerpot",5)} className="item" size="xs">
+                                <img src="./images/flowerpot.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>flower pot- 5 coins</h1>
+                            </button>
 
-                                <button className="item" size="xs">
-                                    <img src="./images/painting.jpg" style ={{width:'440px',height:'440px'}}/>
-                                    <h1>wall painting- 5 coins</h1>
-                                </button>
+                            <button onClick={() => addToCart("painting",5)} className="item" size="xs">
+                                <img src="./images/painting.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>wall painting- 5 coins</h1>
+                            </button>
 
-                                <button className="item" size="xs">
-                                    <img src="./images/coffeemachine.jpg" style ={{width:'440px',height:'440px'}}/>
-                                    <h1>coffee machine- 5 coins</h1>
-                                </button>
+                            <button onClick={() => addToCart("coffee machine",10)} className="item" size="xs">
+                                <img src="./images/coffeemachine.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>coffee machine- 10 coins</h1>
+                            </button>
                         </div>
 
                     </TabPanel>
 
                     <TabPanel className = "cart">
                         <p>items in cart do not last upon refresh, buy now!</p>
+
+                        <div className="cartdisplay">
+                            {displayCart()}
+                        </div> 
+
+                        <h1 style = {{textAlign:'center'}}>_______________________</h1>
+                        <p style = {{textAlign:'right',fontSize:45}}>total cost:{totalInCart()}⍟</p>
+                        <button className = "checkoutButton" onClick={() => checkOutCart()}>checkout!</button>
                     </TabPanel>
 
                     <TabPanel>

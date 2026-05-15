@@ -157,10 +157,19 @@ body{
 }
 
 .message{
-    color: rgb(255, 222, 140);
-    text-shadow: 5px 5px 5px rgb(0, 0, 0);
+    color: rgb(20, 43, 128);
+    text-shadow: 2px 2px 2px rgb(91, 123, 241);
     font-size:3rem;
+    text-align:center;
 }
+
+.messageCoins{
+    color: rgb(251, 213, 130);
+    text-shadow: 5px 5px 5px rgb(0, 5, 22);
+    font-size:5rem;
+    text-align:center;
+}
+
 
 .item{
     margin-left:50px;
@@ -178,7 +187,7 @@ body{
 }
 
 .browse{
-    background-color: rgba(181, 208, 255, 0.483);
+    background-color: rgba(238, 244, 255, 0.483);
     overflow-y: scroll;
     scrollbar-color: rgba(19, 53, 112, 0.483) rgba(181, 208, 255, 0.483);
     max-width:1600px;
@@ -187,16 +196,53 @@ body{
 
 .note{
     text-align:center;
-    text-shadow:0.5px 0.5px 0.5px white;
+    color: rgb(192, 219, 255);
+    text-shadow:2px 2px 0.5px rgb(0, 0, 0);
 }
 
 .cart{
-    background-color: rgba(181, 208, 255, 0.483);
+    background-color: rgba(238, 244, 255, 0.483);
     overflow-y: scroll;
     scrollbar-color: rgba(19, 53, 112, 0.483) rgba(181, 208, 255, 0.483);
     max-width:1600px;
     max-height:1100px;
-    color: rgb(255, 222, 140);
-    text-shadow: 5px 5px 5px rgb(0, 0, 0);
+    color: rgb(20, 43, 128);
+    text-shadow: 0.5px 0.5px 2px rgb(255, 255, 255);
     font-size:2rem;
+}
+
+.cartdisplay{
+    text-align:center;
+    text-shadow:0.5px 0.5px 0.5px white;
+}
+
+.checkoutButton{
+    font-size: 3rem;
+    font-weight:bold;
+    font-family:'Press Start 2P', sans-serif;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor: pointer;
+    color: rgb(20, 43, 128);
+    background-color:rgba(255, 230, 160, 0.757);
+    margin: 0 auto;
+    display: block;
+    margin-bottom:25px;
+}
+
+.checkoutButton:hover{
+    background-color:rgba(227, 188, 79, 0.757);
+}
+
+.mainMessage{
+    text-align:center;
+    color: rgb(20, 43, 128);
+    text-shadow: 0.5px 0.5px 2px rgb(255, 255, 255);
+    font-size:2rem;
+}
+
+@keyframes fade-inout{
+    0%{opacity:1;}
+    100%{opacity: 0;}
 }
