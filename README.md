@@ -7,3 +7,5 @@
 <img width="2879" height="1531" alt="image" src="https://github.com/user-attachments/assets/de19d546-db8c-4876-b26d-10336cc1b396" />
 
 *images are not designed by me, appropriate references and credits go to the artists of the pixel arts.
+
+all code are my own work, i do not give permission for it to be modified or used publicly
