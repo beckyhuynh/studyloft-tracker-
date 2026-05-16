@@ -95,24 +95,21 @@ def create_items():
     
     return jsonify({"message": "item recorded!"}), 201
 
-# @app.route("/update_items/<int:number>", methods=["PUT"])
-# def update_items(number):
-#     coin = InventoryItems.query.get(number)
+@app.route("/update_items/<int:number>", methods=["PATCH"])
+def update_items(number):
+    thing = InventoryItems.query.get(number)
 
-#     if not coin:
-#         return jsonify({"message" : "where it at"}), 404
+    if not thing:
+        return jsonify({"message" : "where it at"}), 404
     
-#     data = request.json
+    data = request.json
 
-#     coin.coins = data.get("coins",coin.coins)
-#     coin.hours = data.get("hours",coin.hours)
-#     coin.minutes = data.get("minutes",coin.minutes)
-#     coin.seconds = data.get("seconds",coin.seconds)
-#     coin.milliseconds = data.get("milliSeconds",coin.milliseconds)
-#     coin.datetime = data.get("dateTime",coin.datetime)
+    # thing.name = data.get("name",thing.name)
+    # thing.price = data.get("price",thing.price)
+    thing.amount = data.get("amount",thing.amount)
 
-#     db.session.commit()
-#     return jsonify({"message" : "coins updated"}), 200
+    db.session.commit()
+    return jsonify({"message" : "item updated"}), 200
 
 
 # @app.route("/delete_period/<int:periodid>", methods=["DELETE"])
@@ -132,6 +129,7 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all() #creating database
         #db.drop_all()
+        #db.drop_all(bind_key="inventory")
     app.run(debug=True)
 
 

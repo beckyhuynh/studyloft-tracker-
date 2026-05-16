@@ -125,34 +125,55 @@ function StopWatch(){
         }  
     }
 
-     const addItem = async () => {
-        const name = "banana";
-        const price = 10;
-        const amount = 3;
 
-        const data = {
-            name,
-            price,
-            amount
+
+    // add new entry to inventory
+     const addItem = async (n, p, a) => {
+        let addnew = true;
+        // if item alr exist, just update the amount to increase that specific entry
+        for (let i = 0; i < inventory.length; i++) {
+            if (inventory[i].name == n) {
+                // find the index of where that entry is stored, and id is that + 1
+                let ind = i + 1;
+                //update
+                let amt = inventory[i].amount + a;
+                updateItem(ind,amt);
+                addnew = false;
+                break;
+            }
         }
 
-        const url = "http://127.0.0.1:5000/create_items"
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+        
+        // else if item doesnt alr exist, then add it normally
+        if(addnew){
+            const name = n;
+            const price = p;
+            const amount = a;
 
-        }
-        const response = await fetch(url, options)
-        if (response.status !== 201 && response.status !== 200) {
-            const message = await response.json()
-            alert(data.message)
+            const data = {
+                name,
+                price,
+                amount
+            }
 
-        } else {
-            fetchItems();
-        }  
+            const url = "http://127.0.0.1:5000/create_items"
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+
+            }
+            const response = await fetch(url, options)
+            if (response.status !== 201 && response.status !== 200) {
+                const message = await response.json()
+                alert(data.message)
+
+            } else {
+                fetchItems();
+            }  
+        }   
     }
 
 
@@ -200,6 +221,36 @@ function StopWatch(){
         } else {
             fetchPeriods();
             console.log("wallet updated");
+        }
+
+
+    }
+
+     const updateItem = async(rowId, number) => {
+        const amount = number;
+
+        const data = {
+          amount
+        }
+
+        const url = "http://127.0.0.1:5000/update_items/"
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+        }
+
+        const response = await fetch(url + rowId, options)
+        if (response.status !== 201 && response.status !== 200) {
+            console.log("errorrrr")
+            const message = await response.json()
+
+        } else {
+            fetchItems();
+            console.log("items updated");
         }
 
 
@@ -299,7 +350,6 @@ function StopWatch(){
 
         // find if that item already exists
         if (cartData.has(item)) {
-            console.log("has")
             let amount = cartData.get(item)[1];
             newMap.set(item,[price,amount + 1]);
             setCartData(newMap);
@@ -309,7 +359,6 @@ function StopWatch(){
 
         // otherwise if item doesnt exist create a row for it
         else{
-            console.log("here")
             newMap.set(item,[price,1]);
             setCartData(newMap);
             // setCartData(cartData.set(item,[price,1]));
@@ -354,7 +403,6 @@ function StopWatch(){
 
     function totalInCart(){
         let count = 0;
-        console.log("hellooo");
         console.log(cartData)
 
         // iterate through each item, multiply unit price by quantity, and add it up
@@ -387,8 +435,10 @@ function StopWatch(){
         else if(totalcoins >= cartTotal) {
             alert("CHECKED OUT! ITEMS ARE NOW IN YOUR INVENTORY!!");
 
-            // add item to database inventory
-            addItem();
+            cartData.forEach(function(value,key){
+                // loop through entire map and add item to database inventory
+                addItem(key,value[0],value[1]);
+            })
 
             const newCart = new Map();
             setCartData(newCart);
