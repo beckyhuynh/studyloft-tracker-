@@ -1,12 +1,30 @@
 .tile{
     width:150px;
     height:150px;
+    display:grid;
+    place-content:center;
 }
 
 .emptyroom .dark-tile{
-    background-color:rgb(107, 76, 15)
+    background-color:rgb(102, 50, 8)
 }
 
 .emptyroom .light-tile{
-    background-color:rgb(253, 213, 133)
+    background-color:rgb(173, 110, 66)
+}
+
+.itempiece{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:80px;
+}
+
+.itempiece:hover{
+    cursor:grab;
+}
+
+.itempiece:active{
+    cursor:grabbing;
 }
