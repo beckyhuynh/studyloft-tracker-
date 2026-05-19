@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
 import "react-tabs/style/react-tabs.css"
+import Room from './Room/Room.js';
 
 function StopWatch(){
 
@@ -465,7 +466,7 @@ function StopWatch(){
                         <Tab>browse🔎︎</Tab>
                         <Tab>cart🛒</Tab>
                         <Tab>decor☆</Tab>
-                        <Tab>enjoy</Tab>
+                        <Tab>credits</Tab>
                     </TabList>
 
                     <TabPanel className="panel">
@@ -551,12 +552,15 @@ function StopWatch(){
                         <button className = "checkoutButton" onClick={() => checkOutCart()}>checkout!</button>
                     </TabPanel>
 
-                    <TabPanel>
-                        <p>cafe decorating here</p>
+                    <TabPanel className = "mainCafe">
+                        <p className = "message2">Drag furniture/item to a tile on the floor to decorate!</p>
+                        <div className = "tiles">
+                            <Room/>
+                        </div>
                     </TabPanel>
 
                     <TabPanel className="art">
-                        <p>nothing here just wanted to give u space to enjoy clear view of background art^_^</p>
+                        <p>Credits for arts:</p>
                     </TabPanel>
                 </Tabs>
             </div>

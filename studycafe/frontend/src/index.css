@@ -242,7 +242,18 @@ body{
     font-size:2rem;
 }
 
-@keyframes fade-inout{
-    0%{opacity:1;}
-    100%{opacity: 0;}
+.tiles{
+    display:grid;
+    place-content:center;
+}
+
+.message2{
+    text-align:center;
+    color: rgb(20, 43, 128);
+    text-shadow: 0.5px 0.5px 2px rgb(255, 255, 255);
+    font-size:2rem;
+}
+
+.mainCafe{
+    background-color: rgba(238, 244, 255, 0.483);
 }

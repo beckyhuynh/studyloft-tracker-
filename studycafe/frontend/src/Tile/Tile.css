@@ -1,0 +1,12 @@
+.tile{
+    width:150px;
+    height:150px;
+}
+
+.emptyroom .dark-tile{
+    background-color:rgb(107, 76, 15)
+}
+
+.emptyroom .light-tile{
+    background-color:rgb(253, 213, 133)
+}
