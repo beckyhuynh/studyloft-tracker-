@@ -3,14 +3,21 @@
     height:150px;
     display:grid;
     place-content:center;
+    background-position: relative;
+    border: 5px solid rgb(133, 146, 160);
+    border-radius:15px;
 }
 
 .emptyroom .dark-tile{
-    background-color:rgb(102, 50, 8)
+    /* background-color:rgb(70, 92, 139); */
+    background: linear-gradient(to bottom right, rgb(117, 151, 224),rgb(70, 92, 139), rgb(70, 92, 139),rgb(70, 92, 139),rgb(41, 51, 80),rgb(28, 34, 56),rgb(101, 126, 180))
 }
 
 .emptyroom .light-tile{
-    background-color:rgb(173, 110, 66)
+    /* background-color:rgb(169, 185, 199); */
+    /* background: linear-gradient(to top left,rgb(202, 208, 222),rgb(144, 180, 212), rgb(144, 180, 212),rgb(144, 180, 212),rgb(99, 126, 149),rgb(64, 95, 121)); */
+    background: linear-gradient(to bottom right,rgb(255, 255, 255),rgb(144, 180, 212), rgb(144, 180, 212),rgb(117, 153, 184),rgb(99, 126, 149),rgb(64, 95, 121),rgb(145, 161, 175))
+
 }
 
 .itempiece{

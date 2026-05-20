@@ -1,6 +1,7 @@
 import './Room.css'
 import Tile from '../Tile/Tile.js';
 import React from 'react';
+import {useRef, useState} from "react";
 
 // for 8 x 8 tile room
 const horizontalAxis = ["a","b","c","d","e","f","g","h"]
@@ -17,43 +18,71 @@ const pieces: Piece[] = [];
 pieces.push({image: "./images/assets/chair.png", x:0, y:7})
 pieces.push({image: "./images/assets/table.png", x:1, y:5})
 
-let activePiece: HTMLElement | null = null;
-
-function grabItem(e: React.MouseEvent){
-    const element = e.target as HTMLElement;
-    if(element.classList.contains("itempiece")) {
-        const x = e.clientX - 80;
-        const y = e.clientY - 80;
-        element.style.position = "absolute";
-        element.style.left = `${x}px`
-        element.style.top = `${y}px`;
-
-        activePiece = element; // only set if we clicked onto it
-    }
-
-}
-
-function movePiece(e: React.MouseEvent) {
-    if (activePiece) {
-        const x = e.clientX - 80;
-        const y = e.clientY - 80;
-        activePiece.style.position = "absolute";
-        activePiece.style.left = `${x}px`
-        activePiece.style.top = `${y}px`;
-    }
-}
-
-function dropPiece(e: React.MouseEvent) {
-    if(activePiece) {
-        activePiece = null;
-    }
-}
 
 function Room(){
+    //const [pieces, setPieces] = useState<Piece[]>()
     // display inventory items in a scrollable horizontal list at top
     // drag items to a tile in the room, update locations, store inside database
     // when the server reloads again, it should render the entire room with item in same spot
     // can move item to different location in the room
+    const roomRef = useRef<HTMLDivElement>(null);
+
+    let activePiece: HTMLElement | null = null;
+
+    function grabItem(e: React.MouseEvent){
+        const element = e.target as HTMLElement;
+        if(element.classList.contains("itempiece")) {
+            const x = e.clientX - 80;
+            const y = e.clientY - 80;
+            element.style.position = "absolute";
+            element.style.left = `${x}px`
+            element.style.top = `${y}px`;
+
+            activePiece = element; // only set if we clicked onto it
+        }
+
+    }
+
+    function movePiece(e: React.MouseEvent) {
+        const room = roomRef.current;
+        if (activePiece && room) {
+            const minX = room.offsetLeft -25;
+            const minY = room.offsetTop - 25;
+            const maxX = room.offsetLeft + room.clientWidth - 120;
+            const maxY = room.offsetTop + room.clientHeight - 120;
+
+            const x = e.clientX - 80;
+            const y = e.clientY - 80;
+            activePiece.style.position = "absolute";
+            // activePiece.style.left = `${x}px`
+            // activePiece.style.top = `${y}px`;
+
+            if (x < minX) {
+                activePiece.style.left = `${minX}px`;
+            } else if(x > maxX) {
+                activePiece.style.left = `${maxX}px`;
+            } else{
+                activePiece.style.left = `${x}px`;
+            }
+
+            if (y < minY) {
+                activePiece.style.top = `${minY}px`;
+            } else if(y > maxY) {
+                activePiece.style.top = `${maxY}px`;
+            } else{
+                activePiece.style.top = `${y}px`;
+            }
+
+        }
+    }
+
+    function dropPiece(e: React.MouseEvent) {
+        if(activePiece) {
+            // pieces[0].x = 5;
+            activePiece = null;
+        }
+    }
+
     let floor = [];
 
     for (let j = verticalAxis.length - 1; j>=0;j--) {
@@ -76,7 +105,9 @@ function Room(){
     onMouseMove = {(e) => movePiece(e)} 
     onMouseDown={e => grabItem(e)} 
     onMouseUp = {(e) => dropPiece(e)}
-    className = "emptyroom">
+    className = "emptyroom"
+    ref = {roomRef}
+    >
         {floor}
     </div>
     );

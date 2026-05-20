@@ -552,10 +552,12 @@ function StopWatch(){
                         <button className = "checkoutButton" onClick={() => checkOutCart()}>checkout!</button>
                     </TabPanel>
 
-                    <TabPanel className = "mainCafe">
+                    <TabPanel>
+                        <div className = "mainCafe">
                         <p className = "message2">Drag furniture/item to a tile on the floor to decorate!</p>
                         <div className = "tiles">
                             <Room/>
+                        </div>
                         </div>
                     </TabPanel>
 

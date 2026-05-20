@@ -256,4 +256,5 @@ body{
 
 .mainCafe{
     background-color: rgba(238, 244, 255, 0.483);
+    min-height: 1350px;
 }
