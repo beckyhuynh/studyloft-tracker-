@@ -48,6 +48,34 @@ barList.push(
     </div>
         );
 
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/window.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/painting1.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/painting2.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+// barList.push(
+//     <div className = "container">
+//         <img className = "picture" style = {{width:150, height:150}} src="./images/assets/paintingnew.png"/>
+//         <div className = "imageText">10</div>
+//     </div>
+//         );
+
 
 const things = barList.map(item => <li style ={{listStyleType:'none'}}>{item}</li>)
 
@@ -198,7 +226,7 @@ function spawnItem(e: React.MouseEvent){
                 }
             })
 
-            floor.push(<Tile key = {`${j},${i}`} image = {image} number = {number} />);
+            floor.push(<Tile key = {`${j},${i}`} image = {image} number = {number} j = {j} />);
         }
     }
 

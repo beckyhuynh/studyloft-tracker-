@@ -3,10 +3,11 @@ import "./Tile.css"
 interface Props{
     image?: string;
     number: number;
+    j : number;
 }
 
-export default function Tile({number, image}:Props){
-    if (number % 2 == 0 && number != 2) {
+export default function Tile({number, image, j}:Props){
+    if (number % 2 == 0 && number != 2 && j < 5) {
         return (
         <div className = "tile dark-tile" >
            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
@@ -14,12 +15,32 @@ export default function Tile({number, image}:Props){
         );
     }
 
+    // spawn tile
     else if(number == 2){
         return(
         <div className = "tile special" >
            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
         </div>
         );
+    }
+
+    // backwall tiles
+    if (j >= 5) {
+        if (j == 5){
+            return(
+            <div className = "tile wallWithBorder" >
+                {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
+                </div>
+            );
+        }
+
+        else if (j != 5){
+            return(
+                <div className = "tile wall" >
+                {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece wallpiece"></div>}
+                </div>
+            );
+        }
     }
 
     else{
