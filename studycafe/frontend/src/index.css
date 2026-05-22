@@ -258,3 +258,20 @@ body{
     background-color: rgba(238, 244, 255, 0.483);
     min-height: 1350px;
 }
+
+.save{
+    font-size: 3rem;
+    font-weight:bold;
+    font-family:'Press Start 2P', sans-serif;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor: pointer;
+    color: rgb(20, 43, 128);
+    background-color:rgba(255, 230, 160, 0.757);
+    margin: 0 auto;
+    display: block;
+    margin-bottom:25px;
+    margin-top: 25px;
+
+}

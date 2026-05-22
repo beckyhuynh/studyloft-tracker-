@@ -2,28 +2,108 @@ import './Room.css'
 import Tile from '../Tile/Tile.js';
 import React from 'react';
 import {useRef, useState, useEffect} from "react";
+import '../Bar.css'
 
 // for 8 x 8 tile room
 const horizontalAxis = ["a","b","c","d","e","f","g","h"]
 const verticalAxis = ["1","2","3","4","5","6","7","8"]
 
+const barList = [];
+
+// pushing from cart into the inventoryBar
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/chair.png"/>
+        <div className = "imageText">10</div>
+    </div>
+    );
+
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/table.png"/>
+        <div className = "imageText">10</div>
+    </div>
+    );
+
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/toilet.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/oven.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/plant.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+
+const things = barList.map(item => <li style ={{listStyleType:'none'}}>{item}</li>)
+
+
 interface Piece{
-    image: string
+    image: string | null
     x: number
     y: number
 }
 
-const initialFloorState: Piece[] = [];
-
-initialFloorState.push({image: "./images/assets/chair.png", x:0, y:7})
-initialFloorState.push({image: "./images/assets/table.png", x:1, y:5})
+// initialFloorState.push({image: "./images/assets/chair.png", x:0, y:7})
+// initialFloorState.push({image: "./images/assets/table.png", x:0, y:6})
+// initialFloorState.push({image: "./images/assets/table.png", x:0, y:5})
 
 
 function Room(){
+    // const initialFloorState: Piece[] = [];
+
+    // initialFloorState.push({image: "./images/assets/chair.png", x:0, y:7})
+    // initialFloorState.push({image: "./images/assets/table.png", x:0, y:6})
+    // initialFloorState.push({image: "./images/assets/table.png", x:0, y:5})
+
+    const [initialFloorState, setFloor] = useState<Piece[]>([]);
+    // initialFloorState.push({image: "./images/assets/chair.png", x:0, y:7})
+
+// when press onto an item, it will push it onto the first upper left tile
+// of the floor, only if there isnt an item there already, otherwise send an alert
+
+function spawnItem(e: React.MouseEvent){
+    const elem = e.target as HTMLElement;
+    const test = [...initialFloorState];
+    console.log("here");
+    console.log(initialFloorState);
+
+    // if(elem.classList.contains("picture")){
+    //     console.log("clicked")
+    //     console.log(e.target)
+    //     test.push({image:elem.getAttribute('src'),x:0,y:1})
+    //     console.log(initialFloorState)
+    // }
+    // test.push({image:"./images/assets/chair.png",x:0,y:1})
+    test.push({image:elem.getAttribute('src'),x:0,y:0})
+    // return test;
+    setFloor(test);
+    setPieces(test);
+    // console.log(initialFloorState);
+    console.log("waa");
+    console.log(pieces);
+}
+
+
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
     const [gridX, setgridX] = useState(0);
     const [gridY, setgridY] = useState(0);
     const [pieces, setPieces] = useState<Piece[]>(initialFloorState)
+    // console.log(pieces);
     // display inventory items in a scrollable horizontal list at top
     // drag items to a tile in the room, update locations, store inside database
     // when the server reloads again, it should render the entire room with item in same spot
@@ -46,6 +126,7 @@ function Room(){
 
             setActivePiece(element);
             // activePiece = element; // only set if we clicked onto it
+            console.log(pieces);
         }
 
     }
@@ -122,14 +203,20 @@ function Room(){
     }
 
     return (
-    <div 
-    onMouseMove = {(e) => movePiece(e)} 
-    onMouseDown={e => grabItem(e)} 
-    onMouseUp = {(e) => dropPiece(e)}
-    className = "emptyroom"
-    ref = {roomRef}
-    >
-        {floor}
+    <div>
+        <div style={{textAlign:'center', fontSize: 50, color: "rgb(10, 45, 110)"}}>Inventory Bar</div>
+        <ul className = "inventoryBar" onMouseDown={e => spawnItem(e)}>{things}</ul>
+
+        <div 
+            onMouseMove = {(e) => movePiece(e)} 
+            onMouseDown={e => grabItem(e)} 
+            onMouseUp = {(e) => dropPiece(e)}
+            className = "emptyroom"
+            ref = {roomRef}
+        >
+            
+            {floor}
+        </div>
     </div>
     );
 }

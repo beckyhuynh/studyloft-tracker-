@@ -1,0 +1,44 @@
+.inventoryBar{
+    list-style-type:none;
+    display:flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    max-width:1200px;
+    scrollbar-color: rgb(22, 45, 135) rgba(86, 42, 42, 0);
+    margin-left:auto;
+    margin-right: auto;
+    flex-wrap:nowrap;
+}
+
+.imageText{
+    position:absolute;
+    bottom: 10px;
+    left: 110px;
+}
+
+.container{
+    position:relative;
+    border: 5px solid rgb(53, 78, 147);
+}
+
+.spawn{
+    text-align: center;
+}
+
+.activeElem{
+    width: 150px;
+    background-repeat: no-repeat;
+    height: 150px;
+    background-position: center center;
+    background-size: 150px;
+    display:flex;
+    margin:auto;
+}
+
+.activeElem:hover{
+    cursor:grab;
+}
+
+.activeElem:active{
+    cursor:grabbing;
+}

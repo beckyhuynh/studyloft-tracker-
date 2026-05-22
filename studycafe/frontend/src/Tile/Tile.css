@@ -4,20 +4,40 @@
     display:grid;
     place-content:center;
     background-position: relative;
-    border: 5px solid rgb(133, 146, 160);
+    border: 5px solid #62503e;
     border-radius:15px;
 }
 
 .emptyroom .dark-tile{
     /* background-color:rgb(70, 92, 139); */
-    background: linear-gradient(to bottom right, rgb(117, 151, 224),rgb(70, 92, 139), rgb(70, 92, 139),rgb(70, 92, 139),rgb(41, 51, 80),rgb(28, 34, 56),rgb(101, 126, 180))
+    /* background: linear-gradient(to bottom right, rgb(117, 151, 224),rgb(70, 92, 139), rgb(70, 92, 139),rgb(70, 92, 139),rgb(41, 51, 80),rgb(28, 34, 56),rgb(101, 126, 180)) */
+    /* background:  linear-gradient(135deg, #05278e 25%, transparent 25%), linear-gradient(225deg, #05278e 25%, transparent 25%), linear-gradient(45deg, #05278e 25%, transparent 25%), linear-gradient(315deg, #05278e 25%, #e5e5f7 25%);
+    background-position:  40px 0, 40px 0, 0 0, 0 0;
+    background-size: 40px 40px;
+    background-repeat: repeat; */
+    background: linear-gradient(90deg, #f5d0b1, #9a744d);
+    background-size: 20px 20px;
 }
 
 .emptyroom .light-tile{
     /* background-color:rgb(169, 185, 199); */
     /* background: linear-gradient(to top left,rgb(202, 208, 222),rgb(144, 180, 212), rgb(144, 180, 212),rgb(144, 180, 212),rgb(99, 126, 149),rgb(64, 95, 121)); */
-    background: linear-gradient(to bottom right,rgb(255, 255, 255),rgb(144, 180, 212), rgb(144, 180, 212),rgb(117, 153, 184),rgb(99, 126, 149),rgb(64, 95, 121),rgb(145, 161, 175))
+    /* background: linear-gradient(to bottom right,rgb(255, 255, 255),rgb(144, 180, 212), rgb(144, 180, 212),rgb(117, 153, 184),rgb(99, 126, 149),rgb(64, 95, 121),rgb(145, 161, 175)) */
 
+    /* background:  linear-gradient(135deg, #05278e 25%, transparent 25%), linear-gradient(225deg, #05278e 25%, transparent 25%), linear-gradient(45deg, #05278e 25%, transparent 25%), linear-gradient(315deg, #05278e 25%, #e5e5f7 25%);
+    background-position:  40px 0, 40px 0, 0 0, 0 0;
+    background-size: 40px 40px;
+    background-repeat: repeat; */
+
+    background: linear-gradient(0deg, #f5d0b1, #9a744d);
+    background-size: 20px 20px;
+}
+
+
+.emptyroom .special{
+    /* background-color:rgb(169, 185, 199); */
+    /* background: linear-gradient(to top left,rgb(202, 208, 222),rgb(144, 180, 212), rgb(144, 180, 212),rgb(144, 180, 212),rgb(99, 126, 149),rgb(64, 95, 121)); */
+    background-color:rgba(252, 234, 194, 0.453);
 }
 
 .itempiece{
@@ -25,7 +45,7 @@
     height:150px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size:80px;
+    background-size:110px;
 }
 
 .itempiece:hover{

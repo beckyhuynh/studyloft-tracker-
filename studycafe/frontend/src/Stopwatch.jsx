@@ -451,11 +451,11 @@ function StopWatch(){
     return(
         <div className="mainScreen">
             <div className="note">
-                <h1>study and get coins to decorate your cafe!! ^^</h1>  
+                <h1>study and get coins to furnish your home!! ^^</h1>  
             </div> 
 
             <div className="title">
-                <h1>StudyCafe☕︎</h1>
+                <h1>☆StudyLoft☆</h1>
                 
             </div> 
             
@@ -532,9 +532,9 @@ function StopWatch(){
                                 <h1>wall painting- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("coffee machine",10)} className="item" size="xs">
-                                <img src="./images/coffeemachine.jpg" style ={{width:'440px',height:'440px'}}/>
-                                <h1>coffee machine- 10 coins</h1>
+                            <button onClick={() => addToCart("oven",10)} className="item" size="xs">
+                                <img src="./images/oven.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <h1>oven- 10 coins</h1>
                             </button>
                         </div>
 
@@ -554,10 +554,22 @@ function StopWatch(){
 
                     <TabPanel>
                         <div className = "mainCafe">
-                        <p className = "message2">Drag furniture/item to a tile on the floor to decorate!</p>
+                        <p className = "message2" style ={{lineHeight:2}}>
+                            1. Click on item to spawn it on bottom left corner
+                            <br></br>
+                            2. Drag furniture to a tile on the floor to furnish
+                            <br></br>
+                            3. Click save to log changes to layout :D
+                            <br></br>
+                            _______________________
+                        </p>
+                        
                         <div className = "tiles">
                             <Room/>
                         </div>
+
+                        <button className = "save">Save Layout</button>
+
                         </div>
                     </TabPanel>
 
