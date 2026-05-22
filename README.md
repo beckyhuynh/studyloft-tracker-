@@ -2,9 +2,12 @@
 - a web app that tracks your study focus sessions, and converts it into game currency to decorate a virtual home
 - built using react/css/html framework for front end and flask/sqlalchemy/node.js for backend database querying
 
-<img width="2871" height="1524" alt="image" src="https://github.com/user-attachments/assets/8d358b72-3c4a-4d55-8764-8505c567dd22" />
-<img width="2879" height="1527" alt="image" src="https://github.com/user-attachments/assets/7e696fda-1ed4-4d6b-bc8f-da3c78b70576" />
-<img width="2879" height="1531" alt="image" src="https://github.com/user-attachments/assets/de19d546-db8c-4876-b26d-10336cc1b396" />
+<img width="2879" height="1529" alt="image" src="https://github.com/user-attachments/assets/bc05b212-78a6-4cd5-913a-ab409a09c9d0" />
+<img width="2872" height="1521" alt="image" src="https://github.com/user-attachments/assets/eb067bca-3ef9-48c0-998c-40cae9fedac6" />
+<img width="2870" height="1512" alt="image" src="https://github.com/user-attachments/assets/1351cb79-c48d-41c9-b453-edca6f2abe88" />
+<img width="2879" height="1525" alt="image" src="https://github.com/user-attachments/assets/97c1a147-bcff-464b-be67-2c97e5304bd9" />
+
+
 
 *images are not designed by me, appropriate references and credits go to the artists of the pixel arts.
 
