@@ -40,8 +40,15 @@
 .emptyroom .special{
     /* background-color:rgb(169, 185, 199); */
     /* background: linear-gradient(to top left,rgb(202, 208, 222),rgb(144, 180, 212), rgb(144, 180, 212),rgb(144, 180, 212),rgb(99, 126, 149),rgb(64, 95, 121)); */
-    background-color:rgba(252, 234, 194, 0.453);
+    background-color:rgba(160, 246, 221, 0.751);
 }
+
+.emptyroom .edit-tile{
+    /* background-color:rgb(169, 185, 199); */
+    /* background: linear-gradient(to top left,rgb(202, 208, 222),rgb(144, 180, 212), rgb(144, 180, 212),rgb(144, 180, 212),rgb(99, 126, 149),rgb(64, 95, 121)); */
+    background-color:rgba(175, 201, 255, 0.88);
+}
+
 
 .emptyroom .wall{
     background: radial-gradient(#1c3d91 1.35px, #e5e5f7 1.35px);

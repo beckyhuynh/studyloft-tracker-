@@ -6,3 +6,19 @@
     height:1200px;
     margin-top: 25px;
 }
+
+.rotateButton{
+    font-size: 3rem;
+    font-weight:bold;
+    font-family:'Press Start 2P', sans-serif;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor: pointer;
+    color: rgb(20, 43, 128);
+    background-color:rgba(255, 230, 160, 0.757);
+    margin: 0 auto;
+    display: block;
+    margin-bottom:25px;
+    margin-top: 25px;
+}

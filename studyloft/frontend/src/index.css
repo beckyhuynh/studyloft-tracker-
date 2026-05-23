@@ -79,7 +79,7 @@ body{
     background-color: rgba(255, 235, 181, 0.715);
     overflow-y: scroll;
     scrollbar-color: rgb(255, 227, 196) #33333300; 
-    height:500px;
+    height:1000px;
     text-shadow: 5px 5px 5px rgb(255, 255, 255);
 }
 
@@ -190,8 +190,8 @@ body{
     background-color: rgba(238, 244, 255, 0.483);
     overflow-y: scroll;
     scrollbar-color: rgba(19, 53, 112, 0.483) rgba(181, 208, 255, 0.483);
-    max-width:1600px;
-    max-height:1100px;
+    max-width:1700px;
+    max-height:1500px;
 }
 
 .note{
@@ -204,7 +204,7 @@ body{
     background-color: rgba(238, 244, 255, 0.483);
     overflow-y: scroll;
     scrollbar-color: rgba(19, 53, 112, 0.483) rgba(181, 208, 255, 0.483);
-    max-width:1600px;
+    max-width:2000px;
     max-height:1100px;
     color: rgb(20, 43, 128);
     text-shadow: 0.5px 0.5px 2px rgb(255, 255, 255);
@@ -251,7 +251,7 @@ body{
     text-align:center;
     color: rgb(20, 43, 128);
     text-shadow: 0.5px 0.5px 2px rgb(255, 255, 255);
-    font-size:2rem;
+    font-size:1.5rem;
 }
 
 .mainCafe{

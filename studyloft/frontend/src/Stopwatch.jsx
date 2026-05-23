@@ -508,32 +508,32 @@ function StopWatch(){
                             </div>
 
                             <button onClick={() => addToCart("chair",5)} className="item" size="xs">
-                                <img src="./images/chair.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <img src="./images/chair.jpg" style ={{width:'460px',height:'460px'}}/>
                                 <h1>wood chair- 5 coins</h1>
                             </button>
 
                             <button onClick={() => addToCart("table",5)} className="item" size="xs">
-                                <img src="./images/table.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <img src="./images/table.jpg" style ={{width:'460px',height:'460px'}}/>
                                 <h1>wood table- 5 coins</h1>
                             </button>
 
                             <button onClick={() => addToCart("plant",5)} className="item" size="xs">
-                                <img src="./images/plant.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <img src="./images/plant.jpg" style ={{width:'460px',height:'460px'}}/>
                                 <h1>plant- 5 coins</h1>
                             </button>
 
                             <button onClick={() => addToCart("flowerpot",5)} className="item" size="xs">
-                                <img src="./images/flowerpot.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <img src="./images/flowerpot.jpg" style ={{width:'460px',height:'460px'}}/>
                                 <h1>flower pot- 5 coins</h1>
                             </button>
 
                             <button onClick={() => addToCart("painting",5)} className="item" size="xs">
-                                <img src="./images/painting.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <img src="./images/painting.jpg" style ={{width:'460px',height:'460px'}}/>
                                 <h1>wall painting- 5 coins</h1>
                             </button>
 
                             <button onClick={() => addToCart("oven",10)} className="item" size="xs">
-                                <img src="./images/oven.jpg" style ={{width:'440px',height:'440px'}}/>
+                                <img src="./images/oven.jpg" style ={{width:'460px',height:'460px'}}/>
                                 <h1>oven- 10 coins</h1>
                             </button>
                         </div>
@@ -555,11 +555,13 @@ function StopWatch(){
                     <TabPanel>
                         <div className = "mainCafe">
                         <p className = "message2" style ={{lineHeight:2}}>
-                            1. Click on item to spawn it on bottom left corner
+                            1. Click on item to spawn it on bottom left corner (GREEN)
                             <br></br>
-                            2. Drag furniture to a tile on the floor to furnish
+                            2. Drag furniture to (BLUE) left corner to rotate
                             <br></br>
-                            3. Click save to log changes to layout :D
+                            3. Drag furniture to a tile on the floor to furnish
+                            <br></br>
+                            4. Click save to log changes to layout :D
                             <br></br>
                             _______________________
                         </p>

@@ -4,10 +4,20 @@ interface Props{
     image?: string;
     number: number;
     j : number;
+    i : number;
 }
 
-export default function Tile({number, image, j}:Props){
-    if (number % 2 == 0 && number != 2 && j < 5) {
+export default function Tile({number, image, j, i}:Props){
+
+    if (j == 0 && i == 1){
+        return (
+        <div className = "tile edit-tile" >
+           {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
+        </div>
+        );
+    }
+
+    else if (number % 2 == 0 && number != 2 && j < 5) {
         return (
         <div className = "tile dark-tile" >
            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}

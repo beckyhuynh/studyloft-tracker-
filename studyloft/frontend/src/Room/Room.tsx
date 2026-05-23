@@ -10,10 +10,12 @@ const verticalAxis = ["1","2","3","4","5","6","7","8"]
 
 const barList = [];
 
+const chair = ["./images/assets/chairFront.png","./images/assets/chairLeft.png", "./images/assets/chairBack.png", "./images/assets/chairRight.png"];
+
 // pushing from cart into the inventoryBar
 barList.push(
     <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/chair.png"/>
+        <img className = "picture" style = {{width:150, height:150}} src = {chair[0]}/>
         <div className = "imageText">10</div>
     </div>
     );
@@ -98,33 +100,34 @@ function Room(){
     // initialFloorState.push({image: "./images/assets/table.png", x:0, y:6})
     // initialFloorState.push({image: "./images/assets/table.png", x:0, y:5})
 
-    const [initialFloorState, setFloor] = useState<Piece[]>([]);
+    // start out with two windows by default
+    const [initialFloorState, setFloor] = useState<Piece[]>([{image: "./images/assets/window.png", x:1, y:6},{image: "./images/assets/window.png", x:6, y:6}]);
     // initialFloorState.push({image: "./images/assets/chair.png", x:0, y:7})
 
 // when press onto an item, it will push it onto the first upper left tile
 // of the floor, only if there isnt an item there already, otherwise send an alert
 
-function spawnItem(e: React.MouseEvent){
-    const elem = e.target as HTMLElement;
-    const test = [...initialFloorState];
-    console.log("here");
-    console.log(initialFloorState);
+    function spawnItem(e: React.MouseEvent){
+        const elem = e.target as HTMLElement;
+        const test = [...initialFloorState];
+        console.log("here");
+        console.log(initialFloorState);
 
-    // if(elem.classList.contains("picture")){
-    //     console.log("clicked")
-    //     console.log(e.target)
-    //     test.push({image:elem.getAttribute('src'),x:0,y:1})
-    //     console.log(initialFloorState)
-    // }
-    // test.push({image:"./images/assets/chair.png",x:0,y:1})
-    test.push({image:elem.getAttribute('src'),x:0,y:0})
-    // return test;
-    setFloor(test);
-    setPieces(test);
-    // console.log(initialFloorState);
-    console.log("waa");
-    console.log(pieces);
-}
+        // if(elem.classList.contains("picture")){
+        //     console.log("clicked")
+        //     console.log(e.target)
+        //     test.push({image:elem.getAttribute('src'),x:0,y:1})
+        //     console.log(initialFloorState)
+        // }
+        // test.push({image:"./images/assets/chair.png",x:0,y:1})
+        test.push({image:elem.getAttribute('src'),x:0,y:0})
+        // return test;
+        setFloor(test);
+        setPieces(test);
+        // console.log(initialFloorState);
+        console.log("waa");
+        console.log(pieces);
+    }
 
 
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
@@ -140,6 +143,36 @@ function spawnItem(e: React.MouseEvent){
 
     // let activePiece: HTMLElement | null = null;
 
+    function rotateItem(e:React.MouseEvent){
+        // console.log("we in");
+        e.stopPropagation;
+        e.preventDefault;
+        setPieces((value) => {
+                const pieces = value.map(p => {
+                    if (p.image != null && p.x == 1 && p.y == 0) {
+                        // console.log("hee");
+                        let index = 0;
+                        for (let i = 0; i < chair.length; i++){
+                            if (p.image == chair[i]) {
+                                index = i + 1;
+                                if (index > 3) {
+                                    index = 0;
+                                }
+                                console.log(index);
+                                // console.log("equal");
+                                p.image = chair[index];
+                                break;
+                            }
+                        }
+                        // p.image = "./images/assets/plant.png";
+                    }
+                    return p;
+                })
+ 
+                return pieces;
+            });
+    }
+
     function grabItem(e: React.MouseEvent){
         const element = e.target as HTMLElement;
         const room = roomRef.current;
@@ -152,6 +185,7 @@ function spawnItem(e: React.MouseEvent){
             element.style.left = `${x}px`
             element.style.top = `${y}px`;
 
+            console.log(element);
             setActivePiece(element);
             // activePiece = element; // only set if we clicked onto it
             console.log(pieces);
@@ -192,6 +226,8 @@ function spawnItem(e: React.MouseEvent){
         }
     }
 
+    let floor = [];
+
     function dropPiece(e: React.MouseEvent) {
         const room = roomRef.current;
         if(activePiece && room) {
@@ -204,16 +240,17 @@ function spawnItem(e: React.MouseEvent){
                     if (p.x == gridX && p.y == gridY) {
                         p.x = x;
                         p.y = y;
+                        
                     }
                     return p;
                 })
+ 
                 return pieces;
             });
             setActivePiece(null);
+            
         }
     }
-
-    let floor = [];
 
     for (let j = verticalAxis.length - 1; j>=0;j--) {
         for(let i = 0; i < horizontalAxis.length; i++) {
@@ -224,11 +261,18 @@ function spawnItem(e: React.MouseEvent){
                 if (p.x == i && p.y == j) {
                     image = p.image;
                 }
-            })
-
-            floor.push(<Tile key = {`${j},${i}`} image = {image} number = {number} j = {j} />);
+            })  
+            
+            floor.push(<Tile key = {`${j},${i}`} image = {image} number = {number} j = {j} i={i} />);
         }
     }
+
+    // logic for item rotation:
+    // for the chairs
+    // if chair is next to table:
+    // if table is right of chair, chair faces right
+    // if table is bottom of chair, chair faces bottom
+    // if table is top of chair, chair faces top...
 
     return (
     <div>
@@ -245,6 +289,8 @@ function spawnItem(e: React.MouseEvent){
             
             {floor}
         </div>
+
+        <button className = "rotateButton" onClick = {(e) => rotateItem(e)}>Rotate</button>
     </div>
     );
 }
