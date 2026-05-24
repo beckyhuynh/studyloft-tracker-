@@ -51,7 +51,7 @@
 
 
 .emptyroom .wall{
-    background: radial-gradient(#1c3d91 1.35px, #e5e5f7 1.35px);
+    background: radial-gradient(#355ab8 5px, #e5e5f7 5px);
     background-size: 27px 27px;
     border: 5px solid #e5e5f7;
 }
@@ -71,6 +71,46 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size:110px;
+}
+
+.resized{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:370px;
+}
+
+.couchLeft{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size:110px;
+}
+
+.couchRight{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size:110px;
+}
+
+.fridgeTop{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size:110px;
+}
+
+.fridgeBottom{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size:200px;
 }
 
 .wallpiece{

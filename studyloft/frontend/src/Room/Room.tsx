@@ -12,6 +12,9 @@ const barList = [];
 
 const chair = ["./images/assets/chairFront.png","./images/assets/chairLeft.png", "./images/assets/chairBack.png", "./images/assets/chairRight.png"];
 
+const furniture: Array<string>[] = [];
+furniture.push(chair);
+
 // pushing from cart into the inventoryBar
 barList.push(
     <div className = "container">
@@ -71,6 +74,14 @@ barList.push(
     </div>
         );
 
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/dog.gif"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+
 // barList.push(
 //     <div className = "container">
 //         <img className = "picture" style = {{width:150, height:150}} src="./images/assets/paintingnew.png"/>
@@ -78,8 +89,70 @@ barList.push(
 //     </div>
 //         );
 
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/cat.gif"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
 
-const things = barList.map(item => <li style ={{listStyleType:'none'}}>{item}</li>)
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchLeft.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchRight.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+    barList.push(
+<div className = "container">
+    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeTop.png"/>
+    <div className = "imageText">10</div>
+</div>
+    );
+
+barList.push(
+<div className = "container">
+    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeBottom.png"/>
+    <div className = "imageText">10</div>
+</div>
+    );
+
+barList.push(
+<div className = "container">
+    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/sink.png"/>
+    <div className = "imageText">10</div>
+</div>
+    );
+
+barList.push(
+<div className = "container">
+    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/toiletSide.png"/>
+    <div className = "imageText">10</div>
+</div>
+    );
+
+barList.push(
+<div className = "container">
+    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubLeft.png"/>
+    <div className = "imageText">10</div>
+</div>
+    );
+
+barList.push(
+<div className = "container">
+    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubRight.png"/>
+    <div className = "imageText">10</div>
+</div>
+    );
+
+const things = barList.map(item => <li className = "thingBar" style ={{listStyleType:'none'}}>{item}</li>)
 
 
 interface Piece{
@@ -152,15 +225,25 @@ function Room(){
                     if (p.image != null && p.x == 1 && p.y == 0) {
                         // console.log("hee");
                         let index = 0;
-                        for (let i = 0; i < chair.length; i++){
-                            if (p.image == chair[i]) {
+                        let idx = 0;
+
+                        // which item
+                        for (let j = 0; j < furniture.length; j++){
+                            if (furniture[j].includes(p.image)) {
+                                idx = j;
+                                break;
+                            }
+                        }
+
+                        for (let i = 0; i < furniture[idx].length; i++){
+                            if (p.image == furniture[idx][i]) {
                                 index = i + 1;
-                                if (index > 3) {
+                                if (index > furniture[idx].length-1) {
                                     index = 0;
                                 }
                                 console.log(index);
                                 // console.log("equal");
-                                p.image = chair[index];
+                                p.image = furniture[idx][index];
                                 break;
                             }
                         }

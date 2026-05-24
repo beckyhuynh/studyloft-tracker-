@@ -8,7 +8,7 @@ interface Props{
 }
 
 export default function Tile({number, image, j, i}:Props){
-
+    // edit tile
     if (j == 0 && i == 1){
         return (
         <div className = "tile edit-tile" >
@@ -17,7 +17,49 @@ export default function Tile({number, image, j, i}:Props){
         );
     }
 
+    // dark tile
     else if (number % 2 == 0 && number != 2 && j < 5) {
+        if (image == "./images/assets/table.png" || image == "./images/assets/plant.png"){
+            return (
+            <div className = "tile dark-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece resized"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/couchLeft.png" || image == "./images/assets/bathTubLeft.png"){
+            return (
+            <div className = "tile dark-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece couchLeft"></div>}
+            </div>
+            );
+        }
+        
+
+        else if (image == "./images/assets/couchRight.png" || image == "./images/assets/bathTubRight.png"){
+            return (
+            <div className = "tile dark-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece couchRight"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/fridgeTop.png"){
+            return (
+            <div className = "tile dark-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeTop"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/fridgeBottom.png"){
+            return (
+            <div className = "tile dark-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeBottom"></div>}
+            </div>
+            );
+        }
+
         return (
         <div className = "tile dark-tile" >
            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
@@ -27,6 +69,14 @@ export default function Tile({number, image, j, i}:Props){
 
     // spawn tile
     else if(number == 2){
+        if (image == "./images/assets/table.png" || image == "./images/assets/plant.png"){
+            return (
+            <div className = "tile special" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece resized"></div>}
+            </div>
+            );
+        }
+
         return(
         <div className = "tile special" >
            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
@@ -37,6 +87,14 @@ export default function Tile({number, image, j, i}:Props){
     // backwall tiles
     if (j >= 5) {
         if (j == 5){
+            if (image == "./images/assets/fridgeTop.png"){
+                return (
+                <div className = "tile wallWithBorder" >
+                {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeTop"></div>}
+                </div>
+                );
+            }
+
             return(
             <div className = "tile wallWithBorder" >
                 {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
@@ -51,9 +109,51 @@ export default function Tile({number, image, j, i}:Props){
                 </div>
             );
         }
+
     }
 
+    // light tiles
     else{
+        if (image == "./images/assets/table.png" || image == "./images/assets/plant.png"){
+            return (
+            <div className = "tile light-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece resized"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/couchLeft.png" || image == "./images/assets/bathTubLeft.png"){
+            return (
+            <div className = "tile light-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece couchLeft"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/couchRight.png" || image == "./images/assets/bathTubRight.png"){
+            return (
+            <div className = "tile light-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece couchRight"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/fridgeTop.png"){
+            return (
+            <div className = "tile light-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeTop"></div>}
+            </div>
+            );
+        }
+
+        else if (image == "./images/assets/fridgeBottom.png"){
+            return (
+            <div className = "tile light-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeBottom"></div>}
+            </div>
+            );
+        }
+
         return (
         <div className = "tile light-tile" >
             {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
