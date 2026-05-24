@@ -3,7 +3,7 @@
 - built using react/css/html framework for front end and flask/sqlalchemy/node.js for backend database querying
 
 <img width="2879" height="1529" alt="image" src="https://github.com/user-attachments/assets/bc05b212-78a6-4cd5-913a-ab409a09c9d0" />
-<img width="2872" height="1521" alt="image" src="https://github.com/user-attachments/assets/eb067bca-3ef9-48c0-998c-40cae9fedac6" />
+<img width="2868" height="1525" alt="image" src="https://github.com/user-attachments/assets/7cbdfa82-d4b3-4781-9e83-26eb601dff49" />
 <img width="2870" height="1512" alt="image" src="https://github.com/user-attachments/assets/1351cb79-c48d-41c9-b453-edca6f2abe88" />
 <img width="2879" height="1531" alt="image" src="https://github.com/user-attachments/assets/cbdf48a5-4b2c-4bd4-9f34-34b906ad3c73" />
 
