@@ -36,7 +36,7 @@ export default function Tile({number, image, j, i}:Props){
         }
         
 
-        else if (image == "./images/assets/couchRight.png" || image == "./images/assets/bathTubRight.png"){
+        else if (image == "./images/assets/couchRight.png"){
             return (
             <div className = "tile dark-tile" >
             {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece couchRight"></div>}
@@ -44,7 +44,15 @@ export default function Tile({number, image, j, i}:Props){
             );
         }
 
-        else if (image == "./images/assets/fridgeTop.png"){
+        else if (image =="./images/assets/bathTubRight.png"){
+            return (
+                <div className = "tile dark-tile" >
+                {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece bathTubRight"></div>}
+                </div>
+            );
+        }
+
+        else if (image == "./images/assets/fridgeTop.png" || image == "./images/assets/bedTop.png"){
             return (
             <div className = "tile dark-tile" >
             {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeTop"></div>}
@@ -60,6 +68,14 @@ export default function Tile({number, image, j, i}:Props){
             );
         }
 
+        else if (image == "./images/assets/bedBottom.png"){
+            return (
+            <div className = "tile dark-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece bedBottom"></div>}
+            </div>
+            );
+        }
+        
         return (
         <div className = "tile dark-tile" >
            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece"></div>}
@@ -130,7 +146,7 @@ export default function Tile({number, image, j, i}:Props){
             );
         }
 
-        else if (image == "./images/assets/couchRight.png" || image == "./images/assets/bathTubRight.png"){
+        else if (image == "./images/assets/couchRight.png"){
             return (
             <div className = "tile light-tile" >
             {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece couchRight"></div>}
@@ -138,7 +154,7 @@ export default function Tile({number, image, j, i}:Props){
             );
         }
 
-        else if (image == "./images/assets/fridgeTop.png"){
+        else if (image == "./images/assets/fridgeTop.png" || image == "./images/assets/bedTop.png"){
             return (
             <div className = "tile light-tile" >
             {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece fridgeTop"></div>}
@@ -153,6 +169,23 @@ export default function Tile({number, image, j, i}:Props){
             </div>
             );
         }
+
+        else if (image == "./images/assets/bedBottom.png"){
+            return (
+            <div className = "tile light-tile" >
+            {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece bedBottom"></div>}
+            </div>
+            );
+        }
+
+        else if (image =="./images/assets/bathTubRight.png"){
+            return (
+                <div className = "tile light-tile" >
+                {image && <div style = {{backgroundImage:`url(${image})`}} className = "itempiece bathTubRight"></div>}
+                </div>
+            );
+        }
+
 
         return (
         <div className = "tile light-tile" >

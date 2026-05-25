@@ -81,14 +81,6 @@ barList.push(
     </div>
         );
 
-
-// barList.push(
-//     <div className = "container">
-//         <img className = "picture" style = {{width:150, height:150}} src="./images/assets/paintingnew.png"/>
-//         <div className = "imageText">10</div>
-//     </div>
-//         );
-
 barList.push(
     <div className = "container">
         <img className = "picture" style = {{width:150, height:150}} src="./images/assets/cat.gif"/>
@@ -151,6 +143,41 @@ barList.push(
     <div className = "imageText">10</div>
 </div>
     );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/clock.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/carpet.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/desk.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedBottom.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
+
+barList.push(
+    <div className = "container">
+        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedTop.png"/>
+        <div className = "imageText">10</div>
+    </div>
+        );
 
 const things = barList.map(item => <li className = "thingBar" style ={{listStyleType:'none'}}>{item}</li>)
 

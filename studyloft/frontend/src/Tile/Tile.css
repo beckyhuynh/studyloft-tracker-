@@ -113,6 +113,22 @@
     background-size:200px;
 }
 
+.bathTubRight{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size:104px;
+}
+
+.bedBottom{
+    width:150px;
+    height:150px;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size:110px;
+}
+
 .wallpiece{
     width:150px;
     height:150px;
