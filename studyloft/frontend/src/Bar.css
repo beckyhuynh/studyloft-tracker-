@@ -13,9 +13,10 @@
 .imageText{
     position:absolute;
     bottom: 10px;
-    left: 80px;
-    background-color: aliceblue;
-    font-size: 2rem;
+    left: 95px;
+    background-color: rgba(255, 255, 255, 0.814);
+    font-size: 1.9rem;
+    color:rgb(0, 0, 0)
 }
 
 .container{
