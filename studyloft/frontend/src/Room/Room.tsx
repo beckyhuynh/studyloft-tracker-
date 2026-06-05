@@ -3,6 +3,7 @@ import Tile from '../Tile/Tile.js';
 import React, { JSX } from 'react';
 import {useRef, useState, useEffect} from "react";
 import '../Bar.css'
+import '../Stopwatch.jsx'
 
 
 function Room(){
@@ -10,6 +11,7 @@ function Room(){
     // for 8 x 8 tile room
     const horizontalAxis = ["a","b","c","d","e","f","g","h"]
     const verticalAxis = ["1","2","3","4","5","6","7","8"]
+
 
     // connect this to the inventory database
     // each time saved stuff, the count should be updated accordingly

@@ -69,7 +69,7 @@ def delete_contact(periodid):
 
 
 
-# _________________________________________
+
 # routes for inventory table
 @app.route("/items", methods = ["GET"])
 def get_items():
