@@ -3,15 +3,32 @@ import Tile from '../Tile/Tile.js';
 import React, { JSX } from 'react';
 import {useRef, useState, useEffect} from "react";
 import '../Bar.css'
-import '../Stopwatch.jsx'
 
 
-function Room(){
+interface inventoryRecord{
+    ivt: Array<Type>;
+}
+
+interface Type{
+    itemId : number;
+    name: String;
+    price: number;
+    amount: number;
+    link: string;
+}
+
+// interface editInventory{
+//     inventoryUpdate: 
+// }
+
+function Room({ivt}:inventoryRecord){
     // let barList: JSX.Element[] = []; 
     // for 8 x 8 tile room
     const horizontalAxis = ["a","b","c","d","e","f","g","h"]
     const verticalAxis = ["1","2","3","4","5","6","7","8"]
 
+    // console.log(inventory[0])
+    // console.log(ivt[1])
 
     // connect this to the inventory database
     // each time saved stuff, the count should be updated accordingly
@@ -26,182 +43,114 @@ function Room(){
     // for each item in inventory, push it into barList to be rendered in inventory bar
     // each time push item, also push in its count;
     const countMap = new Map();
-    countMap.set("chair",2);
-    countMap.set("table",2);
 
     const [itemCount, setItemCount] = useState(countMap); // itemCount is a map of item in inventory and its amt(session persistent only)
 
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src = {chair[0]}/>
-            <div className = "imageText">{itemCount.get("chair")}</div>
-        </div>
-        );
+    for (let i = 0; i < ivt.length; i++){
+    
 
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/table.png"/>
-            <div className = "imageText">{itemCount.get("table")}</div>
-        </div>
-        );
-
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/toilet.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/oven.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/plant.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/window.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/painting1.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/painting2.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/dog.gif"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/cat.gif"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchLeft.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchRight.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-    <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeTop.png"/>
-        <div className = "imageText">10</div>
-    </div>
-        );
-
-    barListInitial.push(
-    <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeBottom.png"/>
-        <div className = "imageText">10</div>
-    </div>
-        );
-
-    barListInitial.push(
-    <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/sink.png"/>
-        <div className = "imageText">10</div>
-    </div>
-        );
-
-    barListInitial.push(
-    <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/toiletSide.png"/>
-        <div className = "imageText">10</div>
-    </div>
-        );
-
-    barListInitial.push(
-    <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubLeft.png"/>
-        <div className = "imageText">10</div>
-    </div>
-        );
-
-    barListInitial.push(
-    <div className = "container">
-        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubRight.png"/>
-        <div className = "imageText">10</div>
-    </div>
-        );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/clock.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/carpet.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/desk.png"/>
-            <div className = "imageText">10</div>
-        </div>
-            );
-
-    barListInitial.push(
+        if (ivt[i].name == "bed") {
+            countMap.set("bedBottom", ivt[i].amount);
+            barListInitial.push(
         <div className = "container">
             <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedBottom.png"/>
-            <div className = "imageText">10</div>
+            <div className = "imageText">{itemCount.get("bedBottom")}</div>
         </div>
             );
+            
 
-    barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedTop.png"/>
-            <div className = "imageText">10</div>
-        </div>
+            countMap.set("bedTop", ivt[i].amount);
+            barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedTop.png"/>
+                    <div className = "imageText">{itemCount.get("bedTop")}</div>
+                </div>
+                    );
+            
+        }
+
+        else if (ivt[i].name == "bathtub") {
+            countMap.set("bathTubLeft", ivt[i].amount);
+            barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubLeft.png"/>
+                <div className = "imageText">{itemCount.get("bathTubLeft")}</div>
+            </div>
+                );
+            
+
+            countMap.set("bathTubRight", ivt[i].amount);
+            barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubRight.png"/>
+                <div className = "imageText">{itemCount.get("bathTubRight")}</div>
+            </div>
+                );
+            
+        }
+
+        else if (ivt[i].name == "fridge") {
+            countMap.set("fridgeTop", ivt[i].amount);
+             barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeTop.png"/>
+                <div className = "imageText">{itemCount.get("fridgeTop")}</div>
+            </div>
+                );
+            
+
+            countMap.set("fridgeBottom", ivt[i].amount);
+            barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeBottom.png"/>
+                <div className = "imageText">{itemCount.get("fridgeBottom")}</div>
+            </div>
+                );
+            
+
+        }
+
+        else if (ivt[i].name == "couch") {
+            countMap.set("couchLeft", ivt[i].amount);
+             barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchLeft.png"/>
+                <div className = "imageText">{itemCount.get("couchLeft")}</div>
+            </div>
+                );
+            
+
+            countMap.set("couchRight", ivt[i].amount);
+            barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchRight.png"/>
+                <div className = "imageText">{itemCount.get("couchRight")}</div>
+            </div>
+                );
+            
+
+        }
+
+        else{
+            countMap.set(ivt[i].name, ivt[i].amount);
+            barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src = {ivt[i].link}/>
+                <div className = "imageText">{itemCount.get(ivt[i].name)}</div>
+            </div>
             );
+        }
 
+    }
+
+    // countMap.set("chair",2);
+    // countMap.set("table",2);
     
     const [barList, setBarList] = useState<JSX.Element[]>(barListInitial);
     
     // itemCount.get("chair")
     // itemCount.get("table")
 
-
-    
 
     const things = barList.map(item => <li className = "thingBar" style ={{listStyleType:'none'}}>{item}</li>)
 
@@ -250,6 +199,8 @@ function Room(){
         let count = [...itemCount];
         let countArray = [...count.values()]; 
         const mapped = countArray.map(thing => thing[0]);
+   
+        console.log("heres map" + mapped);
 
         let idx = 0;
         let curr = "";
@@ -268,7 +219,120 @@ function Room(){
             curr = "table";
             currStr = "./images/assets/table.png";
         }
-        
+
+        if ((elem.getAttribute('src')) == "./images/assets/oven.png"){
+            idx = mapped.indexOf("oven");
+            curr = "oven";
+            currStr = "./images/assets/oven.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/toiletSide.png") {
+            idx = mapped.indexOf("toilet");
+            curr = "toilet";
+            currStr = "./images/assets/toiletSide.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/plant.png") {
+            idx = mapped.indexOf("plant");
+            curr = "plant";
+            currStr = "./images/assets/plant.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/painting1.png") {
+            idx = mapped.indexOf("painting1");
+            curr = "painting1";
+            currStr = "./images/assets/painting1.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/painting2.png") {
+            idx = mapped.indexOf("painting2");
+            curr = "painting2";
+            currStr = "./images/assets/painting2.png";
+        }
+
+        if ((elem.getAttribute('src')) == "./images/assets/dog.gif"){
+            idx = mapped.indexOf("dog");
+            curr = "dog";
+            currStr = "./images/assets/dog.gif";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/window.gif") {
+            idx = mapped.indexOf("window");
+            curr = "window";
+            currStr = "./images/assets/window.gif";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/couchLeft.png") {
+            idx = mapped.indexOf("couchLeft");
+            curr = "couchLeft";
+            currStr = "./images/assets/couchLeft.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/couchRight.png") {
+            idx = mapped.indexOf("couchRight");
+            curr = "couchRight";
+            currStr = "./images/assets/couchRight.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/fridgeTop.png") {
+            idx = mapped.indexOf("fridgeTop");
+            curr = "fridgeTop";
+            currStr = "./images/assets/fridgeTop.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/fridgeBottom.png") {
+            idx = mapped.indexOf("fridgeBottom");
+            curr = "fridgeBottom";
+            currStr = "./images/assets/fridgeBottom.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/sink.png") {
+            idx = mapped.indexOf("sink");
+            curr = "sink";
+            currStr = "./images/assets/sink.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/bathTubLeft.png") {
+            idx = mapped.indexOf("bathTubLeft");
+            curr = "bathTubLeft";
+            currStr = "./images/assets/bathTubLeft.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/bathTubRight.png") {
+            idx = mapped.indexOf("bathTubRight");
+            curr = "bathTubRight";
+            currStr = "./images/assets/bathTubRight.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/clock.png") {
+            idx = mapped.indexOf("clock");
+            curr = "clock";
+            currStr = "./images/assets/clock.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/carpet.png") {
+            idx = mapped.indexOf("carpet");
+            curr = "carpet";
+            currStr = "./images/assets/carpet.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/desk.png") {
+            idx = mapped.indexOf("desk");
+            curr = "desk";
+            currStr = "./images/assets/desk.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/bedTop.png") {
+            idx = mapped.indexOf("bedTop");
+            curr = "bedTop";
+            currStr = "./images/assets/bedTop.png";
+        }
+
+        if (elem.getAttribute('src') == "./images/assets/bedBottom.png") {
+            idx = mapped.indexOf("bedBottom");
+            curr = "bedBottom";
+            currStr = "./images/assets/bedBottom.png";
+        }
 
         amt = count[idx][1];
         amt --;

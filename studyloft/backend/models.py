@@ -28,11 +28,14 @@ class InventoryItems(db.Model):
     name = db.Column(db.String, unique = False, nullable = False)
     price = db.Column(db.Integer, unique = False, nullable = False)
     amount = db.Column(db.Integer, unique = False, nullable = False)
+    link = db.Column(db.String, unique = False, nullable = False)
+
 
     def to_json(self):
         return{
             "id": self.id,
             "name": self.name,
             "price": self.price,
-            "amount": self.amount
+            "amount": self.amount,
+            "link": self.link
          }

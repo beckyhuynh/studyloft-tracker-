@@ -82,11 +82,12 @@ def create_items():
     name = request.json.get("name")
     price = request.json.get("price")
     amount = request.json.get("amount")
+    link = request.json.get("link")
 
     # if not hours or not minutes or not seconds or not milliseconds or not coins:
     #     return jsonify({"message": "uh oh error"}), 403,
 
-    new_item = InventoryItems(name=name, price=price, amount=amount)
+    new_item = InventoryItems(name=name, price=price, amount=amount, link = link)
     try:
         db.session.add(new_item)
         db.session.commit() #permanently write to database

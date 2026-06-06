@@ -1,9 +1,13 @@
 
 import StopWatch from './Stopwatch.jsx';
-import {useState, useEffect} from 'react'
+import {createContext, useState, useEffect} from 'react'
+
+// const inventoryContext = createContext()
 
 function App(){
-  return (<StopWatch/>);
+  return (
+      <StopWatch/>
+  );
 }
 
 export default App;

@@ -131,7 +131,7 @@ function StopWatch(){
 
 
     // add new entry to inventory
-     const addItem = async (n, p, a) => {
+     const addItem = async (n, p, a, l) => {
         let addnew = true;
         // if item alr exist, just update the amount to increase that specific entry
         for (let i = 0; i < inventory.length; i++) {
@@ -152,11 +152,13 @@ function StopWatch(){
             const name = n;
             const price = p;
             const amount = a;
+            const link = l;
 
             const data = {
                 name,
                 price,
-                amount
+                amount,
+                link
             }
 
             const url = "http://127.0.0.1:5000/create_items"
@@ -341,7 +343,7 @@ function StopWatch(){
         return totalcoins;
     }
 
-    const addToCart = (item, price) =>{
+    const addToCart = (item, price, pict) =>{
         const newMap = new Map(cartData);
 
         //when click on button, add item into cart, and its price and quantity
@@ -354,7 +356,7 @@ function StopWatch(){
         // find if that item already exists
         if (cartData.has(item)) {
             let amount = cartData.get(item)[1];
-            newMap.set(item,[price,amount + 1]);
+            newMap.set(item,[price,amount + 1,pict]);
             setCartData(newMap);
 
             //setCartData(cartData.set(item,[price,amount + 1]));
@@ -362,7 +364,7 @@ function StopWatch(){
 
         // otherwise if item doesnt exist create a row for it
         else{
-            newMap.set(item,[price,1]);
+            newMap.set(item,[price,1,pict]);
             setCartData(newMap);
             // setCartData(cartData.set(item,[price,1]));
         }
@@ -440,11 +442,13 @@ function StopWatch(){
 
             cartData.forEach(function(value,key){
                 // loop through entire map and add item to database inventory
-                addItem(key,value[0],value[1]);
+                addItem(key,value[0],value[1], value[2]);
             })
 
             const newCart = new Map();
             setCartData(newCart);
+            console.log("YOOO")
+            console.log(cartData);
         }
        
     })
@@ -511,93 +515,93 @@ function StopWatch(){
 
 
 
-                            <button onClick={() => addToCart("chair",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("chair",5, "./images/assets/chairFront.png")} className="item" size="xs">
                                 <img src="./images/assets/chairFront.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>wood chair- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("table",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("table",5, "./images/assets/table.png")} className="item" size="xs">
                                 <img src="./images/assets/table.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>wood table- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("oven",10)} className="item" size="xs">
+                            <button onClick={() => addToCart("oven",10, "./images/assets/oven.png")} className="item" size="xs">
                                 <img src="./images/assets/oven.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>oven- 10 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("toilet",10)} className="item" size="xs">
+                            <button onClick={() => addToCart("toilet",10, "./images/assets/toiletSide.png")} className="item" size="xs">
                                 <img src="./images/assets/toiletSide.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>toilet- 10 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("plant",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("plant",5, "./images/assets/plant.png")} className="item" size="xs">
                                 <img src="./images/assets/plant.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>plant- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("painting1",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("painting1",5, "./images/assets/painting1.png")} className="item" size="xs">
                                 <img src="./images/assets/painting1.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>painting1- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("painting2",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("painting2",5, "./images/assets/painting2.png")} className="item" size="xs">
                                 <img src="./images/assets/painting2.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>painting2- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("dog",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("dog",5, "./images/assets/dog.gif")} className="item" size="xs">
                                 <img src="./images/assets/dog.gif" style ={{width:'460px',height:'460px'}}/>
                                 <h1>doggie :3- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("cat",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("cat",5, "./images/assets/cat.gif")} className="item" size="xs">
                                 <img src="./images/assets/cat.gif" style ={{width:'460px',height:'460px'}}/>
                                 <h1>cat :3- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("window",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("window",5, "./images/assets/window.png")} className="item" size="xs">
                                 <img src="./images/assets/window.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>window- 5 coins</h1>
                             </button>
 
                             
-                            <button onClick={() => addToCart("couch",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("couch",5, "./images/assets/couch.png")} className="item" size="xs">
                                 <img src="./images/assets/couch.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>couch- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("fridge",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("fridge",10, "./images/assets/fridge.png")} className="item" size="xs">
                                 <img src="./images/assets/fridge.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>fridge- 10 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("sink",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("sink",5, "./images/assets/sink.png" )} className="item" size="xs">
                                 <img src="./images/assets/sink.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>sink- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("bathtub",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("bathtub",5, "./images/assets/bathtub.png")} className="item" size="xs">
                                 <img src="./images/assets/bathtub.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>bathtub- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("clock",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("clock",5, "./images/assets/clock.png")} className="item" size="xs">
                                 <img src="./images/assets/clock.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>clock- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("carpet",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("carpet",5, "./images/assets/carpet.png")} className="item" size="xs">
                                 <img src="./images/assets/carpet.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>carpet- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("desk",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("desk",5, "./images/assets/desk.png")} className="item" size="xs">
                                 <img src="./images/assets/desk.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>desk- 5 coins</h1>
                             </button>
 
-                            <button onClick={() => addToCart("bed",5)} className="item" size="xs">
+                            <button onClick={() => addToCart("bed",5, "./images/assets/bed.png")} className="item" size="xs">
                                 <img src="./images/assets/bed.png" style ={{width:'460px',height:'460px'}}/>
                                 <h1>bed- 5 coins</h1>
                             </button>
@@ -632,7 +636,11 @@ function StopWatch(){
                             _______________________
                         </p>
                             <div className = "tiles">
-                                <Room/>
+                                <Room 
+                                    ivt = {inventory}
+                                    // dbInventoryUpdate = {updateItem}
+                                    // inventoryUpdate = {setInventory}
+                                />
                                 
                             </div>
 
