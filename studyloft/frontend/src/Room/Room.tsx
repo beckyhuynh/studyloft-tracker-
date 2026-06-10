@@ -3,7 +3,7 @@ import Tile from '../Tile/Tile.js';
 import React, { JSX } from 'react';
 import {useRef, useState, useEffect} from "react";
 import '../Bar.css'
-
+import {Piece} from '../Piece.tsx'
 
 interface inventoryRecord{
     ivt: Array<Type>;
@@ -147,19 +147,10 @@ function Room({ivt}:inventoryRecord){
     // countMap.set("table",2);
     
     const [barList, setBarList] = useState<JSX.Element[]>(barListInitial);
-    
-    // itemCount.get("chair")
-    // itemCount.get("table")
-
-
     const things = barList.map(item => <li className = "thingBar" style ={{listStyleType:'none'}}>{item}</li>)
 
 
-    interface Piece{
-        image: string | null
-        x: number
-        y: number
-    }
+    
 
     // start out with two windows by default
     // for initial floor state, if there isnt anything in it already, thats a fresh room
@@ -167,11 +158,156 @@ function Room({ivt}:inventoryRecord){
 
     // else if there is smth in database, for each item in database, add into initial floor state
     // otherwise, push stuff from position database into initial floor state and render that
-    const roomFurnish: Piece[] = [];
-    roomFurnish.push({image: "./images/assets/window.png", x:1, y:6});
-    roomFurnish.push({image: "./images/assets/window.png", x:6, y:6});
 
-    const [initialFloorState, setFloor] = useState<Piece[]>(roomFurnish);
+    interface Piece{
+        image: string | null
+        x: number
+        y: number
+    }
+
+    const [databaseRoom, setDatabaseRoom] = useState<Piece[] | undefined>(undefined);
+
+    let temproom: Piece[] =[];
+    temproom.push({image: "./images/assets/window.png", x:1, y:6})
+    temproom.push({image: "./images/assets/window.png", x:6, y:6})
+
+    // const [roomFurnish, setRoom] = useState<Piece[]>(temproom);
+
+
+    const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
+    const [gridX, setgridX] = useState(0);
+    const [gridY, setgridY] = useState(0);
+    const [roomtest,setroomtest] = useState<Piece[]>(temproom);
+
+    // display inventory items in a scrollable horizontal list at top
+    // drag items to a tile in the room, update locations, store inside database
+    // when the server reloads again, it should render the entire room with item in same spot
+    // can move item to different location in the room
+    const roomRef = useRef<HTMLDivElement>(null);
+
+    // let activePiece: HTMLElement | null = null;
+
+    useEffect(() => {
+        if(!databaseRoom) return;
+
+        let temp = databaseRoom;
+        temp.push({image:"./images/assets/window.png",x:1,y:6})
+        temp.push({image:"./images/assets/window.png",x:6,y:6})
+        setPieces(temp);
+        // setroomtest(databaseRoom)
+    },[databaseRoom])
+
+
+    // console.log(databaseRoom);
+
+    const [initialFloorState, setFloor] = useState<Piece[]>(roomtest);
+    // console.log(initialFloorState);
+    const [pieces, setPieces] = useState<Piece[]>(initialFloorState)
+
+
+
+    useEffect(() => {
+        
+        fetchLayout();
+        console.log("rerendered")
+        // console.log(pieces)
+    },[]);
+
+   
+    const fetchLayout = async () => {
+        const response = await fetch("http://127.0.0.1:5000/getpositions")
+        const data = await response.json() 
+
+        // console.log(data);
+        setDatabaseRoom(data.locates); 
+        // setFloor(data.locates);
+    }
+
+
+    // add new entry to position database
+    const addPos = async (pix:string | null, xloc:number, yloc:number) => {
+        const image = pix;
+        const x = xloc;
+        const y = yloc;
+
+        const data = {
+            image,
+            x,
+            y
+        }
+
+        const url = "http://127.0.0.1:5000/create_location"
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+        }
+
+        const response = await fetch(url, options)
+        if (response.status !== 201 && response.status !== 200) {
+            const message = await response.json()
+            alert(message);
+        }
+        fetchLayout();
+    }
+
+
+    // find out which items are currently on the board with pieces and save them all
+    const saveLayout = (() => {
+        // alert("button is working yippee")
+        // console.log(pieces);
+
+        fetchLayout();
+
+        // for every entry on board, add it to database
+        if (pieces != null){
+            // console.log(pieces);
+            
+            let found = false;
+
+            pieces.forEach(p => {
+                if(databaseRoom != null && databaseRoom.length != 0){
+                    console.log("we in")
+                    // console.log(databaseRoom)
+                    for (const d of databaseRoom) {
+                        console.log("bruh")
+                        if (d.image == p.image) {
+                            // console.log("found")
+                            // console.log(d.picture)
+                            // console.log(p.image)
+                            found = true;
+                           
+                            break;
+                        }
+                    }
+
+
+                    //if went through whole database and couldnt find item then add
+                    if (!found){
+                        addPos(p.image, p.x, p.y);
+                    }
+                    found = false;
+                }
+
+                else if (databaseRoom != null && databaseRoom.length == 0){
+                    addPos(p.image, p.x, p.y);
+                }
+
+            })
+
+        }
+       
+        // fetchLayout();
+        
+        // also update inventory database here
+        // if its one of the coupled items, do special logic
+        
+    })
+
+  
     // initialFloorState.push({image: "./images/assets/chair.png", x:0, y:7})
 
 // when press onto an item, it will push it onto the first upper left tile
@@ -179,7 +315,7 @@ function Room({ivt}:inventoryRecord){
 
     function spawnItem(e: React.MouseEvent){
         const elem = e.target as HTMLElement;
-        const test = [...initialFloorState];
+        const test = [...pieces];
         // console.log("here");
         console.log(initialFloorState);
 
@@ -191,7 +327,9 @@ function Room({ivt}:inventoryRecord){
         // }
         // test.push({image:"./images/assets/chair.png",x:0,y:1})
         test.push({image:elem.getAttribute('src'),x:0,y:0})
+       
         // return test;
+
         setFloor(test);
         setPieces(test);
         
@@ -254,6 +392,12 @@ function Room({ivt}:inventoryRecord){
             idx = mapped.indexOf("dog");
             curr = "dog";
             currStr = "./images/assets/dog.gif";
+        }
+
+        if ((elem.getAttribute('src')) == "./images/assets/cat.gif"){
+            idx = mapped.indexOf("cat");
+            curr = "cat";
+            currStr = "./images/assets/cat.gif";
         }
 
         if (elem.getAttribute('src') == "./images/assets/window.gif") {
@@ -379,20 +523,6 @@ function Room({ivt}:inventoryRecord){
         setItemCount(newmap);
     }
 
-
-    const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
-    const [gridX, setgridX] = useState(0);
-    const [gridY, setgridY] = useState(0);
-    const [pieces, setPieces] = useState<Piece[]>(initialFloorState)
-    // console.log(pieces);
-    // display inventory items in a scrollable horizontal list at top
-    // drag items to a tile in the room, update locations, store inside database
-    // when the server reloads again, it should render the entire room with item in same spot
-    // can move item to different location in the room
-    const roomRef = useRef<HTMLDivElement>(null);
-
-    // let activePiece: HTMLElement | null = null;
-
     function rotateItem(e:React.MouseEvent){
         // console.log("we in");
         e.stopPropagation;
@@ -512,6 +642,7 @@ function Room({ivt}:inventoryRecord){
         }
     }
 
+    // pushing the pieces to the floor
     for (let j = verticalAxis.length - 1; j>=0;j--) {
         for(let i = 0; i < horizontalAxis.length; i++) {
             const number = j + i + 2;
@@ -551,6 +682,14 @@ function Room({ivt}:inventoryRecord){
         </div>
 
         <button className = "rotateButton" onClick = {(e) => rotateItem(e)}>Rotate</button>
+        
+        {/* when click on button, save position of all items on the board into position database 
+                - when reload the page, check above for deets
+            update inventory database using itemCount values- if its a coupled item and only half of it is on the board, dont allow save, otherwise just use count of any 
+            one of the coupled items
+        */}
+
+        <button className = "save" onClick={() => saveLayout()}>Save Layout!</button>
     </div>
     );
 }

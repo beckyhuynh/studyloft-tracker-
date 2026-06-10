@@ -9,7 +9,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.config['SQLALCHEMY_BINDS'] = {
-    'inventory': 'sqlite:///inventory.db'
+    'inventory': 'sqlite:///inventory.db',
+    'position' : 'sqlite:///position.db'
 }
 
 db = SQLAlchemy(app) #create instance

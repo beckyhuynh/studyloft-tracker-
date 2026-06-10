@@ -39,3 +39,19 @@ class InventoryItems(db.Model):
             "amount": self.amount,
             "link": self.link
          }
+    
+
+class PositionItems(db.Model):
+    __bind_key__ = 'position'
+    id = db.Column(db.Integer, primary_key=True) 
+    image = db.Column(db.String, unique = False, nullable = False)
+    x = db.Column(db.Integer, unique = False, nullable = False)
+    y = db.Column(db.Integer, unique = False, nullable = False)
+
+    def to_json(self):
+        return{
+            "id": self.id,
+            "image": self.image,
+            "x": self.x,
+            "y": self.y
+         }

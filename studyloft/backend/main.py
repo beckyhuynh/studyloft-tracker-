@@ -5,7 +5,7 @@
 
 from flask import request, jsonify
 from config import app, db
-from models import Period, InventoryItems
+from models import Period, InventoryItems, PositionItems
 
 @app.route("/periods", methods = ["GET"])
 def get_periods():
@@ -126,11 +126,74 @@ def update_items(number):
 #     return jsonify({"message": "Period deleted"}), 200
 
 
+
+
+
+# routes for position table
+@app.route("/getpositions", methods = ["GET"])
+def get_position():
+    location = PositionItems.query.all() #getting all contexts in database
+    json_locations = list(map(lambda x:x.to_json(), location))
+    return jsonify({"locates": json_locations}) #returns list of json periods
+
+@app.route("/create_location", methods=["POST"])
+def create_location():
+    image = request.json.get("image")
+    x = request.json.get("x")
+    y = request.json.get("y")
+
+    # if not hours or not minutes or not seconds or not milliseconds or not coins:
+    #     return jsonify({"message": "uh oh error"}), 403,
+
+    new_location = PositionItems(image = image, x=x, y=y)
+    try:
+        db.session.add(new_location)
+        db.session.commit() #permanently write to database
+    except Exception as e:
+        return jsonify({"message": "str(e)"}), 400
+    
+    return jsonify({"message": "location recorded!"}), 201
+
+
+@app.route("/update_location/<int:number>", methods=["PATCH"])
+def update_location(number):
+    spot = PositionItems.query.get(number)
+
+    if not spot:
+        return jsonify({"message" : "where it at"}), 404
+    
+    data = request.json
+
+    # thing.name = data.get("name",thing.name)
+    # thing.price = data.get("price",thing.price)
+
+    spot.image = data.get("image",spot.image)
+    spot.x = data.get("x",spot.x)
+    spot.x = data.get("x",spot.x)
+
+    db.session.commit()
+    return jsonify({"message" : "location updated"}), 200
+
+
+# @app.route("/delete_period/<int:periodid>", methods=["DELETE"])
+# def delete_contact(periodid):
+#     period = Period.query.get(periodid)
+
+#     if not period:
+#         return jsonify({"message": "period not found"}), 404
+
+#     db.session.delete(period)
+#     db.session.commit()
+
+#     return jsonify({"message": "Period deleted"}), 200
+
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all() #creating database
         #db.drop_all()
-        #db.drop_all(bind_key="inventory")
+        #db.drop_all(bind_key="position")
     app.run(debug=True)
 
 
