@@ -167,6 +167,7 @@ function Room({ivt}:inventoryRecord){
 
     const [databaseRoom, setDatabaseRoom] = useState<Piece[] | undefined>(undefined);
 
+
     let temproom: Piece[] =[];
     temproom.push({image: "./images/assets/window.png", x:1, y:6})
     temproom.push({image: "./images/assets/window.png", x:6, y:6})
@@ -177,7 +178,7 @@ function Room({ivt}:inventoryRecord){
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
     const [gridX, setgridX] = useState(0);
     const [gridY, setgridY] = useState(0);
-    const [roomtest,setroomtest] = useState<Piece[]>(temproom);
+    // const [roomtest,setroomtest] = useState<Piece[]>(temproom);
 
     // display inventory items in a scrollable horizontal list at top
     // drag items to a tile in the room, update locations, store inside database
@@ -190,17 +191,22 @@ function Room({ivt}:inventoryRecord){
     useEffect(() => {
         if(!databaseRoom) return;
 
-        let temp = databaseRoom;
-        temp.push({image:"./images/assets/window.png",x:1,y:6})
-        temp.push({image:"./images/assets/window.png",x:6,y:6})
+        let temp = [...databaseRoom];
+        // temp.push({image:"./images/assets/window.png",x:1,y:6})
+        // temp.push({image:"./images/assets/window.png",x:6,y:6})
         setPieces(temp);
+        // console.log(pieces)
+        // console.log(databaseRoom)
+        // console.log(databaseRoom)
+
+        // console.log(databaseRoom)
         // setroomtest(databaseRoom)
     },[databaseRoom])
 
 
     // console.log(databaseRoom);
 
-    const [initialFloorState, setFloor] = useState<Piece[]>(roomtest);
+    const [initialFloorState, setFloor] = useState<Piece[]>([]);
     // console.log(initialFloorState);
     const [pieces, setPieces] = useState<Piece[]>(initialFloorState)
 
@@ -209,17 +215,20 @@ function Room({ivt}:inventoryRecord){
     useEffect(() => {
         
         fetchLayout();
-        console.log("rerendered")
-        // console.log(pieces)
+        // console.log("rerendered")
+        // console.log(databaseRoom);
     },[]);
 
-   
     const fetchLayout = async () => {
         const response = await fetch("http://127.0.0.1:5000/getpositions")
-        const data = await response.json() 
-
-        // console.log(data);
-        setDatabaseRoom(data.locates); 
+        const dataCollected = await response.json() 
+        setDatabaseRoom(dataCollected.locates);
+        
+        console.log(dataCollected.locates)
+    
+        // console.log(databaseRoom)
+        // setDatabaseRoom2(data.locates);
+        // console.log(databaseRoom2)
         // setFloor(data.locates);
     }
 
@@ -255,12 +264,44 @@ function Room({ivt}:inventoryRecord){
     }
 
 
+    const updateLocation = async(rowId:number, xcoor:number, ycoor:number) => {
+        const x = xcoor;
+        const y = ycoor;
+
+        const data = {
+          x,y
+        }
+
+        const url = "http://127.0.0.1:5000/update_location/"
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+
+        }
+
+        const response = await fetch(url + rowId, options)
+        if (response.status !== 201 && response.status !== 200) {
+            console.log("errorrrr")
+            const message = await response.json()
+
+        } else {
+            fetchLayout();
+        }
+
+
+    }
+
     // find out which items are currently on the board with pieces and save them all
     const saveLayout = (() => {
         // alert("button is working yippee")
         // console.log(pieces);
 
         fetchLayout();
+        // console.log("hello")
+        // console.log(databaseRoom)
 
         // for every entry on board, add it to database
         if (pieces != null){
@@ -268,35 +309,279 @@ function Room({ivt}:inventoryRecord){
             
             let found = false;
 
-            pieces.forEach(p => {
-                if(databaseRoom != null && databaseRoom.length != 0){
-                    console.log("we in")
-                    // console.log(databaseRoom)
-                    for (const d of databaseRoom) {
-                        console.log("bruh")
-                        if (d.image == p.image) {
-                            // console.log("found")
-                            // console.log(d.picture)
-                            // console.log(p.image)
-                            found = true;
-                           
-                            break;
+            // fix up add to database logic
+
+           // make two temp maps, one to hold count/id of items in database and 
+           // one to hold for pieces for easier access
+
+           let databaseMap = new Map();
+           let piecesMap = new Map();
+
+          
+
+            const fetchLayout2 = async () => {
+                    const response = await fetch("http://127.0.0.1:5000/getpositions")
+                    const dataCollected = await response.json() 
+
+                    // console.log(dataCollected);
+                    // setDatabaseRoom(dataCollected.locates);
+                    
+                    if (dataCollected.locates != null) {
+                        for (const d of dataCollected.locates){
+                            if (databaseMap == null || databaseMap.size == 0 || !(databaseMap.has(d.image))){
+                                // console.log("what???")
+                                // console.log([d.x,d.y]);
+                                databaseMap.set(d.image, [1,[[d.x,d.y]]]);
+                            }
+                            else if (databaseMap.has(d.image)) {
+                                // in value add array of count and coords of each
+                                let tempcount = databaseMap.get(d.image)[0] + 1;
+
+                                let temparr = databaseMap.get(d.image)[1]
+                                temparr.push([d.x,d.y]);
+
+                                databaseMap.set(d.image,[tempcount, temparr])
+                            }
+                            
+                        }
+                    }
+                    
+
+                    if (pieces != null) {
+                        for (const d of pieces){
+                            if (piecesMap == null || piecesMap.size == 0 || !(piecesMap.has(d.image))){
+                                // console.log("what???")
+                                // console.log([d.x,d.y]);
+                                piecesMap.set(d.image, [1,[[d.x,d.y]]]);
+                            }
+                            else if (piecesMap.has(d.image)) {
+                                // in value add array of count and coords of each
+                                let tempcount = piecesMap.get(d.image)[0] + 1;
+
+                                let temparr = piecesMap.get(d.image)[1]
+                                temparr.push([d.x,d.y]);
+
+                                piecesMap.set(d.image,[tempcount, temparr])
+                            }
+                            
                         }
                     }
 
+                    piecesMap.forEach(function(value,key) {
+                        if (!databaseMap.has(key)) {
+                            // console.log(value[1])
 
-                    //if went through whole database and couldnt find item then add
-                    if (!found){
-                        addPos(p.image, p.x, p.y);
-                    }
-                    found = false;
-                }
+                            // console.log(value[1]);
 
-                else if (databaseRoom != null && databaseRoom.length == 0){
-                    addPos(p.image, p.x, p.y);
-                }
+                            for (const v of value[1]){
+                                // console.log(v)
+                                addPos(key, v[0], v[1]);
+                            }
+                            // console.log(value[1][0][0])
+                            // console.log(value[1][0][1])
 
-            })
+                            // addPos(key, value[1][0][0], value[1][0][1]); // this line
+                            console.log("in here")
+                        }
+
+                        else{
+                            console.log("here")
+                            let piecesCount = value[0];
+                            let dataCount = databaseMap.get(key)[0];
+
+
+                            let surplus = piecesCount - dataCount;
+                            // console.log(surplus)
+
+                            // still check if items locations have been changed
+                            // no matter if there is surplus or not
+                            // added new item to the board
+
+                            let piecesCoorArr = value[1]; // coordinates array of current item
+
+                            // console.log(piecesCoorArr)
+                            let tempPieceArr = piecesCoorArr.slice(0,piecesCoorArr.length-surplus)
+
+                            type Coordinate = [number,number];
+                            tempPieceArr.sort((a:Coordinate,b:Coordinate) => {
+                                if (a[0] === b[0]) {
+                                    return a[1] - b[1];
+                                }
+
+                                return a[0] - b[0];
+                            });
+
+                            // console.log(tempPieceArr);
+
+                            // console.log(databaseMap.get(key)[1][1]);
+
+                            
+
+                            for (let j = 0; j < tempPieceArr.length; j++){
+                                // let found = false;
+
+                                let tempDataArr = databaseMap.get(key)[1];
+
+                                tempDataArr.sort((a:Coordinate,b:Coordinate) => {
+                                    if (a[0] === b[0]) {
+                                        return a[1] - b[1];
+                                    }
+
+                                    return a[0] - b[0];
+                                });
+
+                                // console.log(tempDataArr)
+                                // console.log(tempPieceArr)
+
+                                if (!(tempDataArr[j][0] == tempPieceArr[j][0] && tempDataArr[j][1] == tempPieceArr[j][1])){
+                                    console.log(tempDataArr[j])
+                                    console.log(tempPieceArr[j])
+                                }
+
+
+                                // toBreak: for (const da of databaseMap){
+
+                                //     // da[1][1] is the coor array of the item to be searched in database
+                                //     for (const ins of da[1][1]){
+                                //         // console.log(ins)
+                                //         if ((ins[0] == piecesCoorArr[j][0] && ins[1] == piecesCoorArr[j][1])){
+                                //             // console.log(dataCollected.locates)
+                                //             // console.log(pieces)
+                                //             // console.log(ins);
+                                //             // console.log(piecesCoorArr[j])
+                                //             found = true;
+                                //             break toBreak;
+                                            
+                                //         }
+                                        
+                                //     }
+                                // }
+                                // if (!found) {
+                                //     console.log("hello??")
+                                //     console.log(key) // the item to update
+                                //     console.log(piecesCoorArr[j]) // the coords to update to
+
+                                //     // console.log(datacoor);
+                                //     // console.log(piececoor)
+                                // }
+
+                            }
+
+
+                            
+                            fetchLayout();
+                            if (surplus > 0) {
+
+                                for (let i = 0; i < surplus; i++){
+                                    addPos(key, piecesCoorArr[piecesCoorArr.length - 1 - i][0], piecesCoorArr[piecesCoorArr.length - 1 - i][1]);
+                                }
+                            }
+                            }
+                    
+                    })
+
+                    
+            }
+
+            
+            fetchLayout2();
+
+          
+           
+            
+
+        //    if (databaseRoom != null) {
+        //     for (const d of databaseRoom){
+        //         if (databaseMap == null || databaseMap.size == 0 || !(databaseMap.has(d.image))){
+        //             // console.log("what???")
+        //             // console.log([d.x,d.y]);
+        //             databaseMap.set(d.image, [1,[[d.x,d.y]]]);
+        //         }
+        //         else if (databaseMap.has(d.image)) {
+        //             // in value add array of count and coords of each
+        //             let tempcount = databaseMap.get(d.image)[0] + 1;
+
+        //             let temparr = databaseMap.get(d.image)[1]
+        //             temparr.push([d.x,d.y]);
+
+        //             databaseMap.set(d.image,[tempcount, temparr])
+        //         }
+                
+        //     }
+        //    }
+        
+
+        //    if (pieces != null) {
+        //     for (const d of pieces){
+        //         if (piecesMap == null || piecesMap.size == 0 || !(piecesMap.has(d.image))){
+        //             // console.log("what???")
+        //             // console.log([d.x,d.y]);
+        //             piecesMap.set(d.image, [1,[[d.x,d.y]]]);
+        //         }
+        //         else if (piecesMap.has(d.image)) {
+        //             // in value add array of count and coords of each
+        //             let tempcount = piecesMap.get(d.image)[0] + 1;
+
+        //             let temparr = piecesMap.get(d.image)[1]
+        //             temparr.push([d.x,d.y]);
+
+        //             piecesMap.set(d.image,[tempcount, temparr])
+        //         }
+                
+        //     }
+        //    }
+
+        //    piecesMap.forEach(function(value,key) {
+        //     if (!databaseMap.has(key)) {
+        //         // console.log(value[1])
+        //         addPos(key, value[1][0][0], value[1][0][1]);
+        //     }
+
+        //     else{
+        //         let piecesCount = value[0];
+        //         let dataCount = databaseMap.get(key)[0];
+
+
+        //         let surplus = piecesCount - dataCount;
+
+        //         // still check if items locations have been changed
+        //         // no matter if there is surplus or not
+        //         // added new item to the board
+
+        //         let piecesCoorArr = value[1]; // coordinates array of current item
+
+                
+        //         for (let j = 0; j< piecesCoorArr.length-surplus; j++){
+        //             for (const da of databaseMap){
+        //                 // console.log(da[1])
+        //                 for (const ins of da[1][1]){
+        //                     // console.log(ins)
+        //                     if (ins[0] == piecesCoorArr[j][0] && ins[1] == piecesCoorArr[j][1]){
+        //                         console.log(databaseRoom)
+        //                         console.log(pieces)
+        //                         console.log(ins);
+        //                         console.log(piecesCoorArr[j])
+
+                                 
+        //                     }
+        //                     // else{
+        //                     //     console.log(ins[0]);
+
+        //                     // }
+        //                 }
+        //             }
+        //         }
+
+
+        //         if (surplus > 0) {
+
+        //             for (let i = 0; i < surplus; i++){
+        //                 addPos(key, piecesCoorArr[piecesCoorArr.length - 1 - i][0], piecesCoorArr[piecesCoorArr.length - 1 - i][1]);
+        //             }
+        //         }
+        //         }
+           
+        //    })
 
         }
        
@@ -304,6 +589,7 @@ function Room({ivt}:inventoryRecord){
         
         // also update inventory database here
         // if its one of the coupled items, do special logic
+        
         
     })
 
@@ -317,7 +603,7 @@ function Room({ivt}:inventoryRecord){
         const elem = e.target as HTMLElement;
         const test = [...pieces];
         // console.log("here");
-        console.log(initialFloorState);
+        // console.log(initialFloorState);
 
         // if(elem.classList.contains("picture")){
         //     console.log("clicked")
@@ -338,7 +624,7 @@ function Room({ivt}:inventoryRecord){
         let countArray = [...count.values()]; 
         const mapped = countArray.map(thing => thing[0]);
    
-        console.log("heres map" + mapped);
+        // console.log("heres map" + mapped);
 
         let idx = 0;
         let curr = "";
@@ -478,6 +764,12 @@ function Room({ivt}:inventoryRecord){
             currStr = "./images/assets/bedBottom.png";
         }
 
+        if (elem.getAttribute('src') == "./images/assets/window.png") {
+            idx = mapped.indexOf("window");
+            curr = "window";
+            currStr = "./images/assets/window.png";
+        }
+
         amt = count[idx][1];
         amt --;
 
@@ -494,7 +786,7 @@ function Room({ivt}:inventoryRecord){
 
             if (newArr[i].props.children[0].props.src == (currStr)){
                 idx2 = i;
-                console.log(i + currStr);
+                // console.log(i + currStr);
                 break;
             }
         }
@@ -521,6 +813,7 @@ function Room({ivt}:inventoryRecord){
         newmap.set(curr, amt);
 
         setItemCount(newmap);
+        
     }
 
     function rotateItem(e:React.MouseEvent){
@@ -548,7 +841,7 @@ function Room({ivt}:inventoryRecord){
                                 if (index > furniture[idx].length-1) {
                                     index = 0;
                                 }
-                                console.log(index);
+                                // console.log(index);
                                 // console.log("equal");
                                 p.image = furniture[idx][index];
                                 break;
@@ -575,10 +868,10 @@ function Room({ivt}:inventoryRecord){
             element.style.left = `${x}px`
             element.style.top = `${y}px`;
 
-            console.log(element);
+            // console.log(element);
             setActivePiece(element);
             // activePiece = element; // only set if we clicked onto it
-            console.log(pieces);
+            // console.log(pieces);
         }
 
     }

@@ -164,12 +164,9 @@ def update_location(number):
     
     data = request.json
 
-    # thing.name = data.get("name",thing.name)
-    # thing.price = data.get("price",thing.price)
-
-    spot.image = data.get("image",spot.image)
+    # spot.image = data.get("image",spot.image)
     spot.x = data.get("x",spot.x)
-    spot.x = data.get("x",spot.x)
+    spot.y = data.get("y",spot.y)
 
     db.session.commit()
     return jsonify({"message" : "location updated"}), 200
