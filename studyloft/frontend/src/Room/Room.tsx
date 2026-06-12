@@ -196,11 +196,8 @@ function Room({ivt}:inventoryRecord){
         // temp.push({image:"./images/assets/window.png",x:6,y:6})
         setPieces(temp);
         // console.log(pieces)
-        // console.log(databaseRoom)
-        // console.log(databaseRoom)
-
-        // console.log(databaseRoom)
-        // setroomtest(databaseRoom)
+        console.log(databaseRoom)
+        
     },[databaseRoom])
 
 
@@ -224,9 +221,10 @@ function Room({ivt}:inventoryRecord){
         const dataCollected = await response.json() 
         setDatabaseRoom(dataCollected.locates);
         
-        console.log(dataCollected.locates)
+        // console.log(dataCollected.locates)
+        
     
-        // console.log(databaseRoom)
+        
         // setDatabaseRoom2(data.locates);
         // console.log(databaseRoom2)
         // setFloor(data.locates);
@@ -269,7 +267,8 @@ function Room({ivt}:inventoryRecord){
         const y = ycoor;
 
         const data = {
-          x,y
+          x,
+          y
         }
 
         const url = "http://127.0.0.1:5000/update_location/"
@@ -286,7 +285,7 @@ function Room({ivt}:inventoryRecord){
         if (response.status !== 201 && response.status !== 200) {
             console.log("errorrrr")
             const message = await response.json()
-
+            alert(message)
         } else {
             fetchLayout();
         }
@@ -436,6 +435,26 @@ function Room({ivt}:inventoryRecord){
                                 if (!(tempDataArr[j][0] == tempPieceArr[j][0] && tempDataArr[j][1] == tempPieceArr[j][1])){
                                     console.log(tempDataArr[j])
                                     console.log(tempPieceArr[j])
+                                    // figure the id to update
+
+                                    if (databaseRoom != null) {
+                                        console.log("are we in?")
+                                        let id = 1;
+
+                                        for (const it of dataCollected.locates) {
+                                            console.log(it)
+                                            console.log(tempDataArr[j])
+                                            if (it.x == tempDataArr[j][0] && it.y == tempDataArr[j][1]){
+                                                console.log("yes")
+                                                updateLocation(id, tempPieceArr[j][0],tempPieceArr[j][1]);
+                                                break;
+                                            }
+                                            else{
+                                                id ++;
+                                            }
+                                        }
+                                    }
+                                    
                                 }
 
 

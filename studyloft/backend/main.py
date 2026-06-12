@@ -172,6 +172,10 @@ def update_location(number):
     return jsonify({"message" : "location updated"}), 200
 
 
+
+
+
+
 # @app.route("/delete_period/<int:periodid>", methods=["DELETE"])
 # def delete_contact(periodid):
 #     period = Period.query.get(periodid)
