@@ -89,9 +89,9 @@ function StopWatch(){
         const seconds = Math.floor(elapsedTime / (1000) % 60);
         const milliSeconds = Math.floor(elapsedTime % 1000 / 10);
 
-        // every 30 seconds studied u get 1 coins
-        // const coins = Math.floor((elapsedTime/30000)*1);
-        const coins = Math.floor((elapsedTime/1000)*10000);
+        // every 30 seconds studied u get 10 coins
+        const coins = Math.floor((elapsedTime/30000)*10);
+        // const coins = Math.floor((elapsedTime/1000)*10000);
 
         const now = Date();
         const dateTime = now.toLocaleString().split("GMT")[0];
@@ -121,7 +121,7 @@ function StopWatch(){
 
         } else {
             fetchPeriods();
-            updateWallet(1,coins);
+            updateWallet(1,coins, false);
             setElapsedTime(0);
             setIsRunning(false);
         }  
@@ -181,14 +181,14 @@ function StopWatch(){
     }
 
 
-    const updateWallet = async(rowId, money) => {
+    const updateWallet = async(rowId, money, pay) => {
         const hours = 0;
         const minutes = 0;
         const seconds = 0;
         const milliSeconds = 0;
 
         let temp = 10;
-        if (periods.length == 0) {
+        if (periods.length == 0 || pay) {
             temp = money;
         }
 
@@ -439,6 +439,11 @@ function StopWatch(){
         else if(totalcoins >= cartTotal) {
             alert("CHECKED OUT! ITEMS ARE NOW IN YOUR INVENTORY!!");
 
+            // update coin count here
+            let coinRemain = totalcoins - cartTotal;
+
+            updateWallet(1,coinRemain, true);
+
             cartData.forEach(function(value,key){
                 // loop through entire map and add item to database inventory
                 addItem(key,value[0],value[1], value[2]);
@@ -453,6 +458,8 @@ function StopWatch(){
     })
 
 
+    // console.log("function is")
+    // console.log(updateItem);
     return(
         <div className="mainScreen">
             <div className="note">
@@ -486,7 +493,7 @@ function StopWatch(){
                                 <button onClick={start} className="start-button">Start</button>
                                 <button onClick={stop} className="stop-button">Pause</button>
                                 <button onClick={addSession} className="reset-button">End</button>
-                                <button onClick={(e) => deleteSession(154)} className="delete-button">Delete</button>
+                                {/* <button onClick={(e) => deleteSession(154)} className="delete-button">Delete</button> */}
                                 
                             </div>
 
@@ -494,7 +501,7 @@ function StopWatch(){
                     
 
                         <div className= "title2">{
-                            <h1>session history◴ ▶ 1 coin/30 secs</h1>
+                            <h1>session history◴ ▶ 10 coin/30 secs</h1>
                         }
                         </div>
 
@@ -511,8 +518,6 @@ function StopWatch(){
                                 <div className="messageCoins" style = {{display:'inline'}} >{coinCalculate()}⍟ </div>
                                 <br /> click on pic to add to cart!
                             </div>
-
-
 
                             <button onClick={() => addToCart("chair",5, "./images/assets/chairFront.png")} className="item" size="xs">
                                 <img src="./images/assets/chairFront.png" style ={{width:'460px',height:'460px'}}/>
@@ -637,9 +642,8 @@ function StopWatch(){
                             <div className = "tiles">
                                 <Room 
                                     ivt = {inventory}
-
-                                    // dbInventoryUpdate = {updateItem}
-                                    // inventoryUpdate = {setInventory}
+                                    updateIvt = {updateItem}
+                                    
                                 />
                                 
                             </div>
@@ -650,6 +654,7 @@ function StopWatch(){
 
                     <TabPanel className="art">
                         <p>Credits for arts:</p>
+                        <a href = "https://penzilla.itch.io/top-down-retro-interior" style={{color:"white"}}>Click to see where most of the items' art came from</a>
                     </TabPanel>
                 </Tabs>
             </div>

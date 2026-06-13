@@ -3,10 +3,11 @@ import Tile from '../Tile/Tile.js';
 import React, { JSX } from 'react';
 import {useRef, useState, useEffect} from "react";
 import '../Bar.css'
-import {Piece} from '../Piece.tsx'
+
 
 interface inventoryRecord{
     ivt: Array<Type>;
+    updateIvt :(rowid:number, ivtamt:number) => Promise<void>;
 }
 
 interface Type{
@@ -17,11 +18,11 @@ interface Type{
     link: string;
 }
 
-// interface editInventory{
-//     inventoryUpdate: 
-// }
 
-function Room({ivt}:inventoryRecord){
+
+
+function Room({ivt,updateIvt}:inventoryRecord){
+    // console.log(updateIvt)
     // let barList: JSX.Element[] = []; 
     // for 8 x 8 tile room
     const horizontalAxis = ["a","b","c","d","e","f","g","h"]
@@ -48,98 +49,104 @@ function Room({ivt}:inventoryRecord){
 
     for (let i = 0; i < ivt.length; i++){
     
+        // if the current item in inventory is 0, dont add it in
 
-        if (ivt[i].name == "bed") {
-            countMap.set("bedBottom", ivt[i].amount);
-            barListInitial.push(
-        <div className = "container">
-            <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedBottom.png"/>
-            <div className = "imageText">{itemCount.get("bedBottom")}</div>
-        </div>
-            );
-            
+        if (ivt[i].amount != 0) {
 
-            countMap.set("bedTop", ivt[i].amount);
-            barListInitial.push(
+            if (ivt[i].name == "bed") {
+                countMap.set("bedBottom", ivt[i].amount);
+                barListInitial.push(
+            <div className = "container">
+                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedBottom.png"/>
+                <div className = "imageText">{itemCount.get("bedBottom")}</div>
+            </div>
+                );
+                
+
+                countMap.set("bedTop", ivt[i].amount);
+                barListInitial.push(
+                    <div className = "container">
+                        <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedTop.png"/>
+                        <div className = "imageText">{itemCount.get("bedTop")}</div>
+                    </div>
+                        );
+                
+            }
+
+            else if (ivt[i].name == "bathtub") {
+                countMap.set("bathTubLeft", ivt[i].amount);
+                barListInitial.push(
                 <div className = "container">
-                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bedTop.png"/>
-                    <div className = "imageText">{itemCount.get("bedTop")}</div>
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubLeft.png"/>
+                    <div className = "imageText">{itemCount.get("bathTubLeft")}</div>
                 </div>
                     );
-            
+                
+
+                countMap.set("bathTubRight", ivt[i].amount);
+                barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubRight.png"/>
+                    <div className = "imageText">{itemCount.get("bathTubRight")}</div>
+                </div>
+                    );
+                
+            }
+
+            else if (ivt[i].name == "fridge") {
+                countMap.set("fridgeTop", ivt[i].amount);
+                barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeTop.png"/>
+                    <div className = "imageText">{itemCount.get("fridgeTop")}</div>
+                </div>
+                    );
+                
+
+                countMap.set("fridgeBottom", ivt[i].amount);
+                barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeBottom.png"/>
+                    <div className = "imageText">{itemCount.get("fridgeBottom")}</div>
+                </div>
+                    );
+                
+
+            }
+
+            else if (ivt[i].name == "couch") {
+                countMap.set("couchLeft", ivt[i].amount);
+                barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchLeft.png"/>
+                    <div className = "imageText">{itemCount.get("couchLeft")}</div>
+                </div>
+                    );
+                
+
+                countMap.set("couchRight", ivt[i].amount);
+                barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchRight.png"/>
+                    <div className = "imageText">{itemCount.get("couchRight")}</div>
+                </div>
+                    );
+                
+
+            }
+
+            else{
+                countMap.set(ivt[i].name, ivt[i].amount);
+                barListInitial.push(
+                <div className = "container">
+                    <img className = "picture" style = {{width:150, height:150}} src = {ivt[i].link}/>
+                    <div className = "imageText">{itemCount.get(ivt[i].name)}</div>
+                </div>
+                );
+            }
         }
 
-        else if (ivt[i].name == "bathtub") {
-            countMap.set("bathTubLeft", ivt[i].amount);
-            barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubLeft.png"/>
-                <div className = "imageText">{itemCount.get("bathTubLeft")}</div>
-            </div>
-                );
-            
-
-            countMap.set("bathTubRight", ivt[i].amount);
-            barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/bathTubRight.png"/>
-                <div className = "imageText">{itemCount.get("bathTubRight")}</div>
-            </div>
-                );
-            
-        }
-
-        else if (ivt[i].name == "fridge") {
-            countMap.set("fridgeTop", ivt[i].amount);
-             barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeTop.png"/>
-                <div className = "imageText">{itemCount.get("fridgeTop")}</div>
-            </div>
-                );
-            
-
-            countMap.set("fridgeBottom", ivt[i].amount);
-            barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/fridgeBottom.png"/>
-                <div className = "imageText">{itemCount.get("fridgeBottom")}</div>
-            </div>
-                );
-            
-
-        }
-
-        else if (ivt[i].name == "couch") {
-            countMap.set("couchLeft", ivt[i].amount);
-             barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchLeft.png"/>
-                <div className = "imageText">{itemCount.get("couchLeft")}</div>
-            </div>
-                );
-            
-
-            countMap.set("couchRight", ivt[i].amount);
-            barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src="./images/assets/couchRight.png"/>
-                <div className = "imageText">{itemCount.get("couchRight")}</div>
-            </div>
-                );
-            
-
-        }
-
-        else{
-            countMap.set(ivt[i].name, ivt[i].amount);
-            barListInitial.push(
-            <div className = "container">
-                <img className = "picture" style = {{width:150, height:150}} src = {ivt[i].link}/>
-                <div className = "imageText">{itemCount.get(ivt[i].name)}</div>
-            </div>
-            );
-        }
+        
 
     }
 
@@ -196,7 +203,7 @@ function Room({ivt}:inventoryRecord){
         // temp.push({image:"./images/assets/window.png",x:6,y:6})
         setPieces(temp);
         // console.log(pieces)
-        console.log(databaseRoom)
+        // console.log(databaseRoom)
         
     },[databaseRoom])
 
@@ -366,7 +373,44 @@ function Room({ivt}:inventoryRecord){
                         }
                     }
 
+                    // let chairCountDatabase = 0;
+
+                    // databaseMap.forEach(function(value,key) {
+
+                    // if (chair.includes(key)){
+                    //         chairCountDatabase += value[0]; 
+                    //     }
+                    // })
+
+                    // let chairCountPieces = 0;
+
+                    // piecesMap.forEach(function(value,key) {
+
+                    // if (chair.includes(key)){
+                    //         chairCountPieces += value[0]; 
+                    //     }
+                    // })
+
+
+                   
+
                     piecesMap.forEach(function(value,key) {
+                        // if the key is equal to chair
+                        // chairs are rotated, no new chairs are added, total chair count is the same
+                        // chairs are rotated and new chairs are added
+
+                        // get the total chair count
+                        // compare total chair count
+                        // if more chair in pieceMap than in database, 
+                        // an extra chair was definitely added, add that chair in after check if anything was rotated
+
+                        // let chairsurplus = chairCountPieces - chairCountDatabase;
+
+                        // // new chairs were added
+                        // if (chairsurplus > 0){
+
+                        // }
+
                         if (!databaseMap.has(key)) {
                             // console.log(value[1])
 
@@ -443,7 +487,7 @@ function Room({ivt}:inventoryRecord){
 
                                         for (const it of dataCollected.locates) {
                                             console.log(it)
-                                            console.log(tempDataArr[j])
+                                            // console.log(tempDataArr[j])
                                             if (it.x == tempDataArr[j][0] && it.y == tempDataArr[j][1]){
                                                 console.log("yes")
                                                 updateLocation(id, tempPieceArr[j][0],tempPieceArr[j][1]);
@@ -456,38 +500,8 @@ function Room({ivt}:inventoryRecord){
                                     }
                                     
                                 }
-
-
-                                // toBreak: for (const da of databaseMap){
-
-                                //     // da[1][1] is the coor array of the item to be searched in database
-                                //     for (const ins of da[1][1]){
-                                //         // console.log(ins)
-                                //         if ((ins[0] == piecesCoorArr[j][0] && ins[1] == piecesCoorArr[j][1])){
-                                //             // console.log(dataCollected.locates)
-                                //             // console.log(pieces)
-                                //             // console.log(ins);
-                                //             // console.log(piecesCoorArr[j])
-                                //             found = true;
-                                //             break toBreak;
-                                            
-                                //         }
-                                        
-                                //     }
-                                // }
-                                // if (!found) {
-                                //     console.log("hello??")
-                                //     console.log(key) // the item to update
-                                //     console.log(piecesCoorArr[j]) // the coords to update to
-
-                                //     // console.log(datacoor);
-                                //     // console.log(piececoor)
-                                // }
-
                             }
 
-
-                            
                             fetchLayout();
                             if (surplus > 0) {
 
@@ -496,120 +510,50 @@ function Room({ivt}:inventoryRecord){
                                 }
                             }
                             }
-                    
                     })
-
+                    // console.log(chairCount);
+                    console.log(piecesMap)
+                    console.log(databaseMap)
                     
             }
-
-            
+    
             fetchLayout2();
-
-          
-           
-            
-
-        //    if (databaseRoom != null) {
-        //     for (const d of databaseRoom){
-        //         if (databaseMap == null || databaseMap.size == 0 || !(databaseMap.has(d.image))){
-        //             // console.log("what???")
-        //             // console.log([d.x,d.y]);
-        //             databaseMap.set(d.image, [1,[[d.x,d.y]]]);
-        //         }
-        //         else if (databaseMap.has(d.image)) {
-        //             // in value add array of count and coords of each
-        //             let tempcount = databaseMap.get(d.image)[0] + 1;
-
-        //             let temparr = databaseMap.get(d.image)[1]
-        //             temparr.push([d.x,d.y]);
-
-        //             databaseMap.set(d.image,[tempcount, temparr])
-        //         }
-                
-        //     }
-        //    }
-        
-
-        //    if (pieces != null) {
-        //     for (const d of pieces){
-        //         if (piecesMap == null || piecesMap.size == 0 || !(piecesMap.has(d.image))){
-        //             // console.log("what???")
-        //             // console.log([d.x,d.y]);
-        //             piecesMap.set(d.image, [1,[[d.x,d.y]]]);
-        //         }
-        //         else if (piecesMap.has(d.image)) {
-        //             // in value add array of count and coords of each
-        //             let tempcount = piecesMap.get(d.image)[0] + 1;
-
-        //             let temparr = piecesMap.get(d.image)[1]
-        //             temparr.push([d.x,d.y]);
-
-        //             piecesMap.set(d.image,[tempcount, temparr])
-        //         }
-                
-        //     }
-        //    }
-
-        //    piecesMap.forEach(function(value,key) {
-        //     if (!databaseMap.has(key)) {
-        //         // console.log(value[1])
-        //         addPos(key, value[1][0][0], value[1][0][1]);
-        //     }
-
-        //     else{
-        //         let piecesCount = value[0];
-        //         let dataCount = databaseMap.get(key)[0];
-
-
-        //         let surplus = piecesCount - dataCount;
-
-        //         // still check if items locations have been changed
-        //         // no matter if there is surplus or not
-        //         // added new item to the board
-
-        //         let piecesCoorArr = value[1]; // coordinates array of current item
-
-                
-        //         for (let j = 0; j< piecesCoorArr.length-surplus; j++){
-        //             for (const da of databaseMap){
-        //                 // console.log(da[1])
-        //                 for (const ins of da[1][1]){
-        //                     // console.log(ins)
-        //                     if (ins[0] == piecesCoorArr[j][0] && ins[1] == piecesCoorArr[j][1]){
-        //                         console.log(databaseRoom)
-        //                         console.log(pieces)
-        //                         console.log(ins);
-        //                         console.log(piecesCoorArr[j])
-
-                                 
-        //                     }
-        //                     // else{
-        //                     //     console.log(ins[0]);
-
-        //                     // }
-        //                 }
-        //             }
-        //         }
-
-
-        //         if (surplus > 0) {
-
-        //             for (let i = 0; i < surplus; i++){
-        //                 addPos(key, piecesCoorArr[piecesCoorArr.length - 1 - i][0], piecesCoorArr[piecesCoorArr.length - 1 - i][1]);
-        //             }
-        //         }
-        //         }
-           
-        //    })
-
         }
        
         // fetchLayout();
+
         
         // also update inventory database here
         // if its one of the coupled items, do special logic
+        // for every item in the inventory bar, update the inventory count to be that
+        // if its a coupled item, just update it to one of its pair
+        // if the count for an item is 0, delete it from the database
         
-        
+        let updateId = 1; // id starts at 1
+        let updateName = "";
+        itemCount.forEach(function(value,key) {
+            if (key == "bathTubLeft" || key == "bathTubRight") updateName = "bathtub";
+            else if (key == "bedBottom" || key == "bedTop") updateName = "bed";
+            else if (key == "couchLeft" || key == "couchRight") updateName = "couch";
+            else if (key == "fridgeTop" || key == "fridgeBottom") updateName = "fridge";
+            else updateName = key;
+
+          
+            //console.log(value)
+            // updateIvt
+
+            for (const stuff of ivt){
+                if (stuff.name == updateName) {
+                    break;
+                }
+                updateId ++;
+            }
+            updateIvt(updateId, value);
+            updateId = 1;
+            
+        })
+        console.log(itemCount)
+        console.log(ivt)
     })
 
   
