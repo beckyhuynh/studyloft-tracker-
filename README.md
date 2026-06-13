@@ -5,7 +5,7 @@
   
 - built using react/css/html framework for front end and flask/sqlalchemy/node.js for backend database querying
 
-Video demo- attached in github
+# VIDEO DEMO- attached in github
 
 Key pictures of website:
 <img width="2879" height="1528" alt="image" src="https://github.com/user-attachments/assets/7f3d7fc7-7926-4084-b383-f6ab11fe705d" />
