@@ -8,7 +8,7 @@
 # VIDEO DEMO
 https://drive.google.com/file/d/1olA6-hggrFEWVz59gq1HtmYDxO-hcn20/view?usp=drive_link
 
-Key pictures of website:
+# Key pictures of website:
 <img width="2879" height="1528" alt="image" src="https://github.com/user-attachments/assets/7f3d7fc7-7926-4084-b383-f6ab11fe705d" />
 <img width="2879" height="1529" alt="image" src="https://github.com/user-attachments/assets/29596b7b-dae8-4cdb-ae07-91fd1f293ea3" />
 <img width="2875" height="1530" alt="image" src="https://github.com/user-attachments/assets/2b8131af-7d81-42fb-a731-56b12bce90b9" />
