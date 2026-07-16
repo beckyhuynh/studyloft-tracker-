@@ -1,5 +1,5 @@
 # studyloft-tracker
-- a web app that tracks your study focus sessions, and converts it into game currency to decorate a virtual home
+- a gamified web app that tracks your study focus sessions, and converts it into game currency to decorate a virtual home
 - features:
 - timer and persistent timed session log, browse/cart features, and loft feature to decorate with furniture
   
