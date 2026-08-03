@@ -1,11 +1,14 @@
 # studyloft-tracker
 - a gamified web app that tracks your study focus sessions, and converts it into game currency to decorate a virtual home
 
-features:
+## features:
 - timer and persistent timed session log, browse/cart features, and loft feature to decorate with furniture
   
 - built using react/css/html framework for front end and flask/sqlalchemy/node.js for backend database querying
 
+## inspiration:
+- chessboard design, draggable/ snap upon release objects
+  
 # VIDEO DEMO
 https://drive.google.com/file/d/1olA6-hggrFEWVz59gq1HtmYDxO-hcn20/view?usp=drive_link
 
