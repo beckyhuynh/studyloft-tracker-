@@ -7,9 +7,6 @@ __pycache__/
 venv/
 ENV/
 
-# Local SQLite databases 
-backend/instance/*.db
-
 # Environment variables and secrets
 .env
 
