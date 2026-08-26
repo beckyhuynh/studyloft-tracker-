@@ -12,7 +12,7 @@
   
 # Running with Docker Compose
 Ensure you downloaded docker on your own machine
-1. Clone this repo from github onto your machine
+1. Clone this repo from github onto your machine, and cd into the studyloft directory
 2. In terminal, build and run the containers by doing: docker compose up --build
 3. Open your browser and type in 
 http://localhost:5173
