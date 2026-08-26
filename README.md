@@ -10,6 +10,14 @@
 ## inspiration:
 - chessboard design, draggable/ snap upon release objects
   
+# Running with Docker Compose
+Ensure you downloaded docker on your own machine
+1. Clone this repo from github onto your machine
+2. In terminal, build and run the containers by doing: docker compose up --build
+3. Open your browser and type in 
+http://localhost:5173
+4. You can now run the web app live!
+
 # VIDEO DEMO
 https://drive.google.com/file/d/1olA6-hggrFEWVz59gq1HtmYDxO-hcn20/view?usp=drive_link
 
@@ -21,11 +29,4 @@ https://drive.google.com/file/d/1olA6-hggrFEWVz59gq1HtmYDxO-hcn20/view?usp=drive
 
 *images are not drawn by me, all credits go to the artists of the pixel arts.
 
-# Running with Docker Compose
-Ensure you downloaded docker on your own machine
-1. Clone this repo from github onto your machine
-2. In terminal, build and run the containers by doing: docker compose up --build
-3. Open your browser and type in 
-http://localhost:5173
-4. You can now run the web app live!
 
