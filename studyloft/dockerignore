@@ -1,0 +1,28 @@
+# Git version control
+.git
+.gitignore
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Node modules and build outputs (handled inside the container)
+node_modules/
+dist/
+build/
+
+# Local SQLite databases 
+backend/instance/*.db
+
+# Environment variables or secret files
+.env
+
+# Docker files and logs
+Dockerfile
+docker-compose.yml
+*.log
